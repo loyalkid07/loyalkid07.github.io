@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="description" content="Shreyas Patil — AI/ML Engineer building production LLM systems. Depth by instinct. Engineered for impact."/>
+<meta property="og:title" content="Shreyas Patil — AI/ML Engineer"/>
+<meta property="og:description" content="Depth by Instinct. Engineered for Impact. Production AI systems — orchestration, memory, inference, evaluation."/>
+<title>Shreyas Patil — AI/ML Engineer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "surface-container-low": "#f3f3f4",
+                    "surface-container": "#eeeeee",
+                    "outline-variant": "#e4beb1",
+                    "accent": "#ff5c00",
+                    "primary": "#a73a00",
+                    "error": "#ba1a1a",
+                    "on-surface": "#1a1c1c"
+                },
+                borderRadius: {
+                    DEFAULT: "12px",
+                    sm: "8px",
+                    md: "12px",
+                    lg: "16px",
+                    xl: "20px",
+                    full: "9999px",
+                    none: "0px"
+                },
+                spacing: {
+                    "unit": "4px",
+                    "max-width": "1440px",
+                    "margin-mobile": "16px",
+                    "gutter": "16px",
+                    "margin-desktop": "32px",
+                    "section-gap": "160px"
+                },
+                fontFamily: {
+                    "serif": ["Space Grotesk", "sans-serif"],
+                    "sans": ["Inter", "sans-serif"],
+                    "mono": ["JetBrains Mono", "monospace"]
+                }
+            }
+        }
+    }
+</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="antialiased selection:bg-accent selection:text-white">
+
+<!-- Background Grid -->
+<div class="fixed inset-0 pointer-events-none brutalist-grid z-0"></div>
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════════ -->
+<nav class="fixed top-0 left-0 w-full z-50 px-4 md:px-8 h-20 backdrop-blur-xl border-b" style="background-color:var(--nav-bg); border-color:var(--outline-color);">
+    <div class="h-full w-full nav-grid max-w-screen-2xl mx-auto">
+
+        <!-- Left: socials + résumé -->
+        <div class="flex items-center gap-4 md:gap-6 overflow-hidden">
+            <a class="group font-mono text-[10px] tracking-widest uppercase font-bold opacity-50 hover:opacity-100 hover:text-accent transition-all" href="https://github.com/loyalkid07" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GITHUB</a>
+            <a class="group font-mono text-[10px] tracking-widest uppercase font-bold opacity-50 hover:opacity-100 hover:text-accent transition-all" href="https://www.linkedin.com/in/shreyas-patil856" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LINKEDIN</a>
+            <a class="hidden sm:block font-mono text-[10px] tracking-widest uppercase font-bold opacity-50 hover:opacity-100 hover:text-accent transition-all" href="https://x.com/shreyas_patil" target="_blank" rel="noopener noreferrer" aria-label="X">X</a>
+            <a class="hidden md:block font-mono text-[10px] tracking-widest uppercase font-bold opacity-50 hover:opacity-100 hover:text-accent transition-all" href="Shreyas_Patil_Resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="View Resume">RESUME</a>
+        </div>
+
+        <!-- Center: nav links -->
+        <div class="flex justify-center items-center gap-2 md:gap-4 relative" id="nav-container">
+            <!-- Sliding Highlighter -->
+            <div id="nav-highlighter" class="absolute top-1/2 left-0 h-8 rounded-full pointer-events-none opacity-0 transition-all duration-300 ease-out" style="background-color: rgba(255, 130, 70, 0.18); z-index: 0; will-change: transform, width, opacity;"></div>
+
+            <a class="nav-spy-link relative z-10 font-mono text-[9px] md:text-[10px] tracking-[0.18em] uppercase font-black transition-colors px-4 py-2 rounded-full hover:text-accent" href="#about" data-section="about">WHO I AM</a>
+            <a class="nav-spy-link relative z-10 font-mono text-[9px] md:text-[10px] tracking-[0.18em] uppercase font-black transition-colors px-4 py-2 rounded-full hover:text-accent" href="#experience" data-section="experience">FIELD LOG</a>
+            <a class="nav-spy-link relative z-10 font-mono text-[9px] md:text-[10px] tracking-[0.18em] uppercase font-black transition-colors px-4 py-2 rounded-full hover:text-accent" href="#work" data-section="work">BUILDS</a>
+            <a class="nav-spy-link relative z-10 font-mono text-[9px] md:text-[10px] tracking-[0.18em] uppercase font-black transition-colors px-4 py-2 rounded-full hover:text-accent" href="#writing" data-section="writing">WRITING</a>
+        </div>
+
+        <!-- Right: status + theme + CTA -->
+        <div class="flex items-center justify-end gap-3 md:gap-4">
+            <!-- Status LED — change AVAILABILITY_STATUS in JS to update -->
+            <div class="status-indicator hidden sm:flex" id="status-indicator">
+                <span class="status-dot open" id="status-dot"></span>
+                <span id="status-label">OPEN</span>
+            </div>
+            <button aria-label="Toggle Theme" class="p-2 transition-all hover:text-accent flex items-center" onclick="toggleTheme()">
+                <span class="material-symbols-outlined text-[20px] dark:hidden">dark_mode</span>
+                <span class="material-symbols-outlined text-[20px] hidden dark:block">light_mode</span>
+            </button>
+            <a class="bg-accent text-white px-4 md:px-6 py-2.5 font-mono text-[9px] md:text-[10px] font-black uppercase tracking-[0.18em] hover:brightness-110 transition-all active:scale-95" style="border-radius:10px;" href="#find-me">REACH_OUT</a>
+        </div>
+
+    </div>
+</nav>
+
+<!-- ═══════════════════════════ MAIN ══════════════════════════════ -->
+<main class="relative z-10 pt-40">
+
+    <!-- ── HERO ── -->
+    <section class="px-4 md:px-8 min-h-[58vh] flex flex-col justify-center reveal max-w-screen-2xl mx-auto">
+        <h1 class="font-serif text-[38px] sm:text-[60px] md:text-[100px] lg:text-[130px] font-bold leading-[0.82] mb-10 tracking-tighter uppercase">
+            Depth by<br/>
+            <span style="color:var(--accent-color)">Instinct.</span>
+        </h1>
+        <p class="font-serif text-[22px] md:text-[32px] font-semibold leading-[0.9] mb-2 tracking-tight uppercase opacity-80">
+            Engineering for Impact.
+        </p>
+        <p class="font-sans text-base md:text-lg max-w-xl leading-relaxed font-medium opacity-55 mt-6 mb-10">
+            Building production AI systems that hold under load. Specializing in orchestration, multi-agent frameworks, inference optimization, and resilient memory architectures.
+        </p>
+    </section>
+
+    <!-- ── 01 IDENTIFICATION (About) ── -->
+    <section class="px-4 md:px-8 mt-section-gap reveal max-w-screen-2xl mx-auto" id="about">
+        <div class="mb-16">
+            <div class="section-divider"></div>
+            <div class="flex items-center gap-3 font-mono text-[11px] font-black tracking-[0.3em] uppercase" style="color:var(--accent-color)">
+                <div class="w-2 h-2" style="background:var(--accent-color)"></div>
+                <span>01 — WHO I AM</span>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+
+            <!-- Bio -->
+            <div class="lg:col-span-7">
+                <h2 class="font-serif text-3xl md:text-5xl font-bold mb-10 tracking-tight leading-[0.88]">I pick the hard problem.<br/>Not the safe one.</h2>
+                <div class="space-y-7 font-sans text-lg leading-relaxed opacity-75 mb-10">
+                    <p>I build production AI systems. At Xcaliber Health, I developed <strong>Merlin</strong>, a multi-agent framework orchestrating healthcare workflows on Ray Serve, and shipped an asynchronous document validation pipeline that eliminated dead-air latency. For the internal <strong>Agent Development Kit (ADK)</strong>, I designed its initial long-term memory module using Redis and Kuzu DB.</p>
+                    <p>I focus on solving real bottlenecks. For <strong>AgentXBlox</strong>, I accelerated OCR processing by 70% across 10,000+ pages by fixing GIL-constrained concurrency bottlenecks, and cut LLM token consumption by 60%+ through entity-specific routing.</p>
+                </div>
+                <a class="hero-cta hero-cta-secondary inline-block" href="about.html">→ KNOW MORE ABOUT ME</a>
+            </div>
+
+            <!-- Core Stack -->
+            <div class="lg:col-span-5">
+                <p class="font-mono text-[10px] font-black uppercase tracking-widest mb-8" style="color:var(--accent-color)">// CORE_STACK</p>
+
+                <div class="stack-group">
+                    <span class="stack-group-label">Orchestration</span>
+                    <div>
+                        <span class="stack-pill glass-pill">Temporal</span>
+                        <span class="stack-pill glass-pill">Ray</span>
+                    </div>
+                </div>
+                <div class="stack-group">
+                    <span class="stack-group-label">Inference</span>
+                    <div>
+                        <span class="stack-pill glass-pill">vLLM</span>
+                        <span class="stack-pill glass-pill">Bedrock</span>
+                        <span class="stack-pill glass-pill">FastAPI</span>
+                        <span class="stack-pill glass-pill">LiteLLM</span>
+                    </div>
+                </div>
+                <div class="stack-group">
+                    <span class="stack-group-label">Memory</span>
+                    <div>
+                        <span class="stack-pill glass-pill">Kuzu DB</span>
+                        <span class="stack-pill glass-pill">GraphRAG</span>
+                        <span class="stack-pill glass-pill">Redis</span>
+                        <span class="stack-pill glass-pill">Aurora</span>
+                    </div>
+                </div>
+                <div class="stack-group">
+                    <span class="stack-group-label">Observability</span>
+                    <div>
+                        <span class="stack-pill glass-pill">Langfuse</span>
+                        <span class="stack-pill glass-pill">OpenTelemetry</span>
+                        <span class="stack-pill glass-pill">DeepEval</span>
+                    </div>
+                </div>
+                <div class="stack-group">
+                    <span class="stack-group-label">Processing</span>
+                    <div>
+                        <span class="stack-pill glass-pill">PyArrow</span>
+                        <span class="stack-pill glass-pill">OpenCV</span>
+                        <span class="stack-pill glass-pill">Pydantic</span>
+                        <span class="stack-pill glass-pill">AsyncIO</span>
+                        <span class="stack-pill glass-pill">DSPy</span>
+                    </div>
+                </div>
+                <div class="stack-group">
+                    <span class="stack-group-label">Voice & Streaming</span>
+                    <div>
+                        <span class="stack-pill glass-pill">Twilio</span>
+                        <span class="stack-pill glass-pill">WebSockets</span>
+                        <span class="stack-pill glass-pill">Nova Sonic</span>
+                    </div>
+                </div>
+                <div class="stack-group">
+                    <span class="stack-group-label">Standards</span>
+                    <div>
+                        <span class="stack-pill glass-pill">FHIR</span>
+                    </div>
+                </div>
+                <div class="stack-group">
+                    <span class="stack-group-label">Languages</span>
+                    <div>
+                        <span class="stack-pill glass-pill">Python</span>
+                        <span class="stack-pill glass-pill">C++</span>
+                        <span class="stack-pill glass-pill">SQL</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── 02 FIELD_LOG (Experience) ── -->
+    <section class="px-4 md:px-8 mt-section-gap reveal max-w-screen-2xl mx-auto" id="experience">
+        <div class="mb-16">
+            <div class="section-divider"></div>
+            <div class="flex items-center gap-3 font-mono text-[11px] font-black tracking-[0.3em] uppercase" style="color:var(--accent-color)">
+                <div class="w-2 h-2" style="background:var(--accent-color)"></div>
+                <span>02 — FIELD LOG</span>
+            </div>
+        </div>
+        <div class="space-y-6">
+
+            <!-- Xcaliber Health -->
+            <div class="exp-entry glass-tile">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+                    <div class="lg:col-span-8">
+                        <div class="font-mono text-[20px] md:text-[26px] font-black uppercase tracking-tight mb-1" style="color:var(--accent-color)">XCALIBER HEALTH</div>
+                        <div class="font-mono text-[11px] tracking-[0.18em] uppercase font-bold opacity-50">Data Scientist 1</div>
+                    </div>
+                    <div class="lg:col-span-4 flex items-start justify-start lg:justify-end">
+                        <span class="font-mono text-[10px] tracking-widest uppercase font-bold opacity-35 glass-pill px-3 py-1">SEPT 2025 – MAR 2026</span>
+                    </div>
+                </div>
+                <div class="w-full h-px mb-8" style="background:var(--outline-color)"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-8">
+                        <ul class="font-sans text-base md:text-lg leading-relaxed opacity-75 space-y-4 mb-8">
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Designed and deployed <strong>"Merlin"</strong>, a production multi-agent system on <strong>Ray Serve</strong> orchestrating secure healthcare workflows. Built tool integrations for appointment scheduling and demographic updates via strictly-typed FHIR payloads to <strong>Athena EHR</strong>.</span></li>
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Owned an <strong>async document validation workflow</strong> for mid-call ID uploads via WhatsApp/SMS. Integrated with the Temporal OCR pipeline and replaced 3-second polling loops with event-driven Redis updates, instantly returning data to the live Bedrock voice session.</span></li>
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Collaborated on migrating a monolithic voice agent to a <strong>dynamic routing architecture</strong> for seamless mid-call handoffs. Resolved LLM barge-in hallucinations via explicit Twilio audio-buffer flushes.</span></li>
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Designed a long-term memory module for the internal <strong>Agent Development Kit (ADK)</strong>. Buffered active conversations in <strong>Redis</strong> while a <strong>Temporal</strong>-backed pipeline distilled salient facts and persisted them into a <strong>Kuzu DB</strong> knowledge graph.</span></li>
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Resolved critical failures in the ADK's agent runtime: a session-isolation defect leaking context across concurrent calls and a state-propagation bug. Redesigned DAG state management and migrated session history to Redis, enabling horizontal scaling.</span></li>
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Accelerated a <strong>Temporal</strong>-backed OCR pipeline by <strong>70%</strong> across <strong>10,000+ pages</strong> by benchmarking frontier vision models and parallelizing CPU-intensive OpenCV preprocessing via a process pool. Slashed LLM token consumption by <strong>60%</strong> by implementing document-specific entity extraction mappings.</span></li>
+                        </ul>
+                    </div>
+                    <div class="lg:col-span-4">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="stack-pill glass-pill text-[9px]">Temporal</span>
+                            <span class="stack-pill glass-pill text-[9px]">Ray</span>
+                            <span class="stack-pill glass-pill text-[9px]">FastAPI</span>
+                            <span class="stack-pill glass-pill text-[9px]">Claude 3.5</span>
+                            <span class="stack-pill glass-pill text-[9px]">Bedrock</span>
+                            <span class="stack-pill glass-pill text-[9px]">Twilio</span>
+                            <span class="stack-pill glass-pill text-[9px]">WebSockets</span>
+                            <span class="stack-pill glass-pill text-[9px]">Kuzu DB</span>
+                            <span class="stack-pill glass-pill text-[9px]">Redis</span>
+                            <span class="stack-pill glass-pill text-[9px]">Aurora</span>
+                            <span class="stack-pill glass-pill text-[9px]">FHIR</span>
+                            <span class="stack-pill glass-pill text-[9px]">OpenCV</span>
+                            <span class="stack-pill glass-pill text-[9px]">PyArrow</span>
+                            <span class="stack-pill glass-pill text-[9px]">Pydantic</span>
+                            <span class="stack-pill glass-pill text-[9px]">LiteLLM</span>
+                            <span class="stack-pill glass-pill text-[9px]">DSPy</span>
+                            <span class="stack-pill glass-pill text-[9px]">Langfuse</span>
+                            <span class="stack-pill glass-pill text-[9px]">OpenTelemetry</span>
+                            <span class="stack-pill glass-pill text-[9px]">Python</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stealth Startup -->
+            <div class="exp-entry glass-tile">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+                    <div class="lg:col-span-8">
+                        <div class="font-mono text-[20px] md:text-[26px] font-black uppercase tracking-tight mb-1" style="color:var(--accent-color)">STEALTH STARTUP</div>
+                        <div class="font-mono text-[11px] tracking-[0.18em] uppercase font-bold opacity-50">Machine Learning Intern</div>
+                    </div>
+                    <div class="lg:col-span-4 flex items-start justify-start lg:justify-end">
+                        <span class="font-mono text-[10px] tracking-widest uppercase font-bold opacity-35 glass-pill px-3 py-1">FEB – MAY 2025</span>
+                    </div>
+                </div>
+                <div class="w-full h-px mb-8" style="background:var(--outline-color)"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-8">
+                        <ul class="font-sans text-base md:text-lg leading-relaxed opacity-75 space-y-4">
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Prototyped an <strong>LLM-driven pipeline</strong> for automated technical assessments, utilizing Python (<code class="font-mono text-sm px-1 rounded" style="background:var(--input-bg)">ast</code>) to extract candidate code features for dynamic analysis.</span></li>
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Improved evaluation pipeline reliability by building <strong>Docker</strong> containers and <strong>Kubernetes</strong> deployment configurations for agentic workflows.</span></li>
+                        </ul>
+                    </div>
+                    <div class="lg:col-span-4">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="stack-pill glass-pill text-[9px]">Python</span>
+                            <span class="stack-pill glass-pill text-[9px]">Docker</span>
+                            <span class="stack-pill glass-pill text-[9px]">Kubernetes</span>
+                            <span class="stack-pill glass-pill text-[9px]">LLMs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cohere For AI -->
+            <div class="exp-entry glass-tile">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+                    <div class="lg:col-span-8">
+                        <div class="font-mono text-[20px] md:text-[26px] font-black uppercase tracking-tight mb-1" style="color:var(--accent-color)">COHERE FOR AI</div>
+                        <div class="font-mono text-[11px] tracking-[0.18em] uppercase font-bold opacity-50">Open Science Contributor — Expedition Aya 2024</div>
+                    </div>
+                    <div class="lg:col-span-4 flex items-start justify-start lg:justify-end">
+                        <span class="font-mono text-[10px] tracking-widest uppercase font-bold opacity-35 glass-pill px-3 py-1">JUL – SEPT 2024</span>
+                    </div>
+                </div>
+                <div class="w-full h-px mb-8" style="background:var(--outline-color)"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-8">
+                        <ul class="font-sans text-base md:text-lg leading-relaxed opacity-75 space-y-4">
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Implemented data filtering and toxicity analysis on a massive, 8-language <strong>image-text dataset</strong> used to pretrain the <strong>Maya</strong> vision-language model.</span></li>
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Conducted cross-lingual verification for cultural coherence, directly contributing to the project winning the "Most Promising Project" award at Expedition Aya 2024.</span></li>
+                        </ul>
+                    </div>
+                    <div class="lg:col-span-4">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="stack-pill glass-pill text-[9px]">NLP</span>
+                            <span class="stack-pill glass-pill text-[9px]">Vision-Language</span>
+                            <span class="stack-pill glass-pill text-[9px]">Data Curation</span>
+                            <span class="stack-pill glass-pill text-[9px]">Open Source</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── 03 MANIFEST (Works — Horizontal Scroll) ── -->
+    <section class="horizontal-scroll-container mt-section-gap" id="work" style="height:480vh;">
+        <div class="horizontal-sticky">
+            <div class="absolute left-4 md:left-8 top-20 w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] z-20">
+                <div class="section-divider"></div>
+                <div class="flex items-center gap-3 font-mono text-[11px] font-black tracking-[0.3em] uppercase" style="color:var(--accent-color)">
+                    <div class="w-2 h-2" style="background:var(--accent-color)"></div>
+                    <span>03 — BUILDS</span>
+                </div>
+            </div>
+            <div class="horizontal-track" id="horizontal-track-work">
+
+                <!-- Project 1: Pulse -->
+                <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('pulse')" style="border-radius:16px;">
+                    <div>
+                        <div class="flex justify-between items-start mb-10">
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">01_PULSE</div>
+                            <div class="flex gap-2 flex-wrap justify-end">
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Claude</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Redis</span>
+                            </div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Personal Biometric Intelligence</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">Google Health webhooks → Redis Streams → Claude Haiku analysis → Twilio WhatsApp + Wear OS haptics. Real-time self-monitoring on near-zero-budget infrastructure.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">EXPLORE_PROJECT →</span>
+                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">2025</span>
+                    </div>
+                </div>
+
+                <!-- Project 2: LLM Gateway -->
+                <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('gateway')" style="border-radius:16px;">
+                    <div>
+                        <div class="flex justify-between items-start mb-10">
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">02_LLM_GATEWAY</div>
+                            <div class="flex gap-2 flex-wrap justify-end">
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">ONNX</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Redis</span>
+                            </div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">LLM Gateway</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">OpenAI-compatible HTTP gateway with a speculative preflight pipeline. The small model thinks; the large model generates.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">EXPLORE_PROJECT →</span>
+                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">2025–2026</span>
+                    </div>
+                </div>
+
+                <!-- Project 3: Serving Engine -->
+                <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('serving')" style="border-radius:16px;">
+                    <div>
+                        <div class="flex justify-between items-start mb-10">
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">03_SERVING_ENGINE</div>
+                            <div class="flex gap-2 flex-wrap justify-end">
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">CUDA</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">C++</span>
+                            </div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Custom LLM Serving Engine</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">Ground-up synthesis of vLLM, SGLang, and llama.cpp. A first-principles LLM inference engine.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">EXPLORE_PROJECT →</span>
+                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">2026</span>
+                    </div>
+                </div>
+
+                <!-- Project 4: MT Pipeline -->
+                <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('mt')" style="border-radius:16px;">
+                    <div>
+                        <div class="flex justify-between items-start mb-10">
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">04_MT_PIPELINE</div>
+                            <div class="flex gap-2 flex-wrap justify-end">
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">LoRA</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">NLP</span>
+                            </div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Culturally Aware MT Pipeline</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">Enhanced machine translation across Indian languages via IndicTrans2 and LoRA fine-tuning for edge deployment.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">EXPLORE_PROJECT →</span>
+                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">2025</span>
+                    </div>
+                </div>
+
+                <!-- Project 5: ABSA -->
+                <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('absa')" style="border-radius:16px;">
+                    <div>
+                        <div class="flex justify-between items-start mb-10">
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">05_ABSA</div>
+                            <div class="flex gap-2 flex-wrap justify-end">
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Bi-LSTM</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Attention</span>
+                            </div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Aspect-Based Sentiment Analysis</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">Attention-based Bi-LSTM for fine-grained aspect-level sentiment classification.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">EXPLORE_PROJECT →</span>
+                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">2024</span>
+                    </div>
+                </div>
+
+                <div class="flex-shrink-0 w-8 h-10"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── 04 THOUGHTS (Writing — Adaptive) ── -->
+    <section class="horizontal-scroll-container mt-section-gap" id="writing">
+        <div class="horizontal-sticky">
+            <div class="absolute left-4 md:left-8 top-20 flex flex-col z-20 section-header">
+                <div class="section-divider" style="width:calc(100vw - 4rem)"></div>
+                <div class="flex items-center gap-3 font-mono text-[11px] font-black tracking-[0.3em] uppercase" style="color:var(--accent-color)">
+                    <div class="w-2 h-2" style="background:var(--accent-color)"></div>
+                    <span>04 — WRITING</span>
+                </div>
+            </div>
+            <div class="horizontal-track" id="horizontal-track-writing">
+
+                <!-- Blog 1: Preflight Thesis -->
+                <a href="blogs/preflight.html" class="writing-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" style="border-radius:16px; text-decoration:none; color:inherit;">
+                    <div>
+                        <div class="flex justify-between items-start mb-10">
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">BLOG_01</div>
+                            <div class="flex gap-2 flex-wrap justify-end">
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Architecture</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">LLM</span>
+                            </div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">The Preflight Thesis</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">Why the small model should do all the thinking — and the large model should only generate. A case for moving intelligence upstream.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">READ_MORE →</span>
+                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">~8 MIN</span>
+                    </div>
+                </a>
+
+                <!-- Blog 2: Temporal as Safety -->
+                <a href="blogs/temporal.html" class="writing-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" style="border-radius:16px; text-decoration:none; color:inherit;">
+                    <div>
+                        <div class="flex justify-between items-start mb-10">
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">BLOG_02</div>
+                            <div class="flex gap-2 flex-wrap justify-end">
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Distributed</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Clinical AI</span>
+                            </div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Temporal as a Safety Feature</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">In clinical multi-agent systems, session isolation isn't a nice-to-have — it's the safety boundary. Why workflow engines are the right primitive.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">READ_MORE →</span>
+                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">~6 MIN</span>
+                    </div>
+                </a>
+
+                <!-- Blog 3: Context Engineering -->
+                <a href="blogs/context-engineering.html" class="writing-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" style="border-radius:16px; text-decoration:none; color:inherit;">
+                    <div>
+                        <div class="flex justify-between items-start mb-10">
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">BLOG_03</div>
+                            <div class="flex gap-2 flex-wrap justify-end">
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Context Eng.</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">GraphRAG</span>
+                            </div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Beyond RAG</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">Context engineering for production agent memory. How a three-tier system eliminates context fragmentation without destroying the context window — or your prompt caching economics.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">READ_MORE →</span>
+                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">~10 MIN</span>
+                    </div>
+                </a>
+
+                <!-- Blog 4: Python Concurrency -->
+                <a href="blogs/concurrency.html" class="writing-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" style="border-radius:16px; text-decoration:none; color:inherit;">
+                    <div>
+                        <div class="flex justify-between items-start mb-10">
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">BLOG_04</div>
+                            <div class="flex gap-2 flex-wrap justify-end">
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Systems</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Python</span>
+                            </div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">The Wrong Executor</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">How a ThreadPoolExecutor for CPU-bound OpenCV work caused Temporal worker starvation and a cascading retry doom loop — and what actually fixed it.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">READ_MORE →</span>
+                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">~7 MIN</span>
+                    </div>
+                </a>
+
+                <!-- Ghost tile -->
+                <div class="writing-tile-ghost glass-tile p-10 md:p-12 flex flex-col justify-between opacity-35" aria-hidden="true" style="border-radius:16px; border-style:dashed;">
+                    <div>
+                        <div class="flex items-center gap-4 mb-10">
+                            <div class="w-3 h-3 ghost-pulse-dot" style="background:var(--accent-color); border-radius:9999px;"></div>
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-50">MORE_INCOMING</div>
+                        </div>
+                        <p class="font-mono text-[10px] tracking-widest uppercase opacity-35 leading-loose">Next dispatch<br/>arriving soon.</p>
+                    </div>
+                    <div class="font-mono text-[9px] uppercase tracking-widest opacity-25">// ACTIVE_AUTHORING</div>
+                </div>
+
+                <div class="flex-shrink-0 w-8 h-10 hidden" id="writing-spacer"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── 05 FIND ME (Contact) ── -->
+    <section class="px-4 md:px-8 mt-section-gap mb-section-gap reveal max-w-screen-2xl mx-auto" id="find-me">
+        <div class="mb-16">
+            <div class="section-divider"></div>
+            <div class="flex items-center gap-3 font-mono text-[11px] font-black tracking-[0.3em] uppercase" style="color:var(--accent-color)">
+                <div class="w-2 h-2" style="background:var(--accent-color)"></div>
+                <span>05 — FIND ME</span>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+
+            <!-- Left: contact info + education -->
+            <div class="lg:col-span-5 flex flex-col justify-between">
+                <h2 class="font-serif text-5xl md:text-[72px] font-bold mb-10 uppercase leading-[0.88] tracking-tighter">Reach<br/><span style="color:var(--accent-color)">out.</span></h2>
+                
+                <div class="mt-8 lg:mt-auto hidden lg:block"></div>
+                <a class="link-card glass-tile" href="mailto:shrey.sp1411@gmail.com?subject=Hey%20Shreyas" id="lc-email">
+                    <div>
+                        <span class="link-card-label">Direct</span>
+                        <span class="link-card-title">Email</span>
+                        <span class="link-card-url">shrey.sp1411@gmail.com</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Right: linktree cards -->
+            <div class="lg:col-span-7">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    <a class="link-card glass-tile" href="https://github.com/loyalkid07" target="_blank" rel="noopener noreferrer" id="lc-github">
+                        <div>
+                            <span class="link-card-label">Code</span>
+                            <span class="link-card-title">GitHub</span>
+                            <span class="link-card-url">github.com/loyalkid07</span>
+                        </div>
+                    </a>
+
+                    <a class="link-card glass-tile" href="https://www.linkedin.com/in/shreyas-patil856" target="_blank" rel="noopener noreferrer" id="lc-linkedin">
+                        <div>
+                            <span class="link-card-label">Professional</span>
+                            <span class="link-card-title">LinkedIn</span>
+                            <span class="link-card-url">linkedin.com/in/shreyas-patil856</span>
+                        </div>
+                    </a>
+
+                    <a class="link-card glass-tile" href="https://x.com/shreyas_patil" target="_blank" rel="noopener noreferrer" id="lc-x">
+                        <div>
+                            <span class="link-card-label">Thoughts</span>
+                            <span class="link-card-title">X / Twitter</span>
+                            <span class="link-card-url">x.com/shreyas_patil</span>
+                        </div>
+                    </a>
+
+                    <a class="link-card glass-tile" href="Shreyas_Patil_Resume.pdf" target="_blank" rel="noopener noreferrer" id="lc-resume">
+                        <div>
+                            <span class="link-card-label">Document</span>
+                            <span class="link-card-title">Resume</span>
+                            <span class="link-card-url">Opens in new tab</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+
+<!-- ═══════════════════════════ FOOTER ════════════════════════════ -->
+<footer class="w-full border-t relative z-10" style="background-color:var(--footer-bg); border-color:var(--outline-color);">
+    <div class="px-4 md:px-8 py-10 max-w-screen-2xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex flex-col md:flex-row items-center gap-4 md:gap-10">
+                <div class="font-mono text-[10px] tracking-[0.2em] uppercase opacity-35 font-bold" id="footer-copyright">© 2026 SHREYAS PATIL</div>
+                <div class="flex items-center gap-5">
+                    <a href="https://github.com/loyalkid07" target="_blank" rel="noopener noreferrer" class="font-mono text-[10px] tracking-[0.18em] uppercase opacity-35 hover:opacity-90 hover:text-accent transition-all font-bold">GITHUB</a>
+                    <a href="https://www.linkedin.com/in/shreyas-patil856" target="_blank" rel="noopener noreferrer" class="font-mono text-[10px] tracking-[0.18em] uppercase opacity-35 hover:opacity-90 hover:text-accent transition-all font-bold">LINKEDIN</a>
+                    <a href="https://x.com/shreyas_patil" target="_blank" rel="noopener noreferrer" class="font-mono text-[10px] tracking-[0.18em] uppercase opacity-35 hover:opacity-90 hover:text-accent transition-all font-bold">X</a>
+                    <a href="about.html" class="font-mono text-[10px] tracking-[0.18em] uppercase opacity-35 hover:opacity-90 hover:text-accent transition-all font-bold">ABOUT</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ═══════════════════════════ SLIDE PANEL ═══════════════════════ -->
+<div class="fixed inset-0 z-[100] full-panel overflow-y-auto custom-scrollbar" id="slide-panel">
+    <div class="sticky top-0 left-0 w-full backdrop-blur-xl border-b z-[110] px-4 md:px-8 h-20 flex justify-between items-center" style="background-color:var(--nav-bg); border-color:var(--outline-color);">
+        <div class="font-mono text-[11px] font-black tracking-[0.3em] uppercase flex items-center gap-4" id="panel-meta-id" style="color:var(--accent-color)">
+            <span class="w-3 h-3 inline-block" style="background:var(--accent-color)"></span>
+            MANIFEST_FILE.001
+        </div>
+        <button class="group flex items-center gap-3 font-mono text-[10px] tracking-[0.2em] uppercase font-black transition-all hover:text-accent" onclick="togglePanel()">
+            <span class="hidden md:inline-block">[CLOSE]</span>
+            <span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform">close</span>
+        </button>
+    </div>
+    <div class="px-4 md:px-8 py-20 md:py-36">
+        <div class="max-w-screen-xl mx-auto">
+            <span class="font-mono text-[11px] tracking-[0.4em] font-black block mb-6 uppercase" style="color:var(--accent-color)" id="panel-category">Case Study</span>
+            <h2 class="font-serif text-5xl md:text-[110px] font-bold mb-20 leading-[0.78] tracking-tighter uppercase" id="panel-title">Project Title</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <div class="lg:col-span-8 space-y-16 pb-32">
+                    <section>
+                        <h3 class="font-mono text-[11px] tracking-widest uppercase font-black mb-8 flex items-center gap-5" id="panel-s1-label" style="color:var(--accent-color)">
+                            <span class="inline-block w-10 h-0.5" style="background:var(--accent-color)"></span>01 / SECTION
+                        </h3>
+                        <p class="font-sans leading-relaxed text-xl md:text-2xl font-medium opacity-75" id="panel-s1-body"></p>
+                    </section>
+                    <div class="p-10 md:p-12 relative" id="panel-code-block" style="background:var(--input-bg); border-radius:12px; border:1px solid var(--outline-color);">
+                        <div class="absolute top-0 right-0 p-5 font-mono text-[10px] opacity-20 font-bold uppercase">SYST_LOG</div>
+                        <code class="text-[13px] md:text-[15px] font-mono block leading-relaxed overflow-x-auto whitespace-pre" style="color:var(--accent-color)" id="panel-code"></code>
+                    </div>
+                    <section>
+                        <h3 class="font-mono text-[11px] tracking-widest uppercase font-black mb-8 flex items-center gap-5" id="panel-s2-label" style="color:var(--accent-color)">
+                            <span class="inline-block w-10 h-0.5" style="background:var(--accent-color)"></span>02 / SECTION
+                        </h3>
+                        <p class="font-sans leading-relaxed text-xl md:text-2xl font-medium opacity-75" id="panel-s2-body"></p>
+                    </section>
+                    <section id="panel-s3-section">
+                        <h3 class="font-mono text-[11px] tracking-widest uppercase font-black mb-8 flex items-center gap-5" id="panel-s3-label" style="color:var(--accent-color)">
+                            <span class="inline-block w-10 h-0.5" style="background:var(--accent-color)"></span>03 / SECTION
+                        </h3>
+                        <p class="font-sans leading-relaxed text-xl md:text-2xl font-medium opacity-75" id="panel-s3-body"></p>
+                    </section>
+                </div>
+                <div class="lg:col-span-4">
+                    <div class="sticky top-36 space-y-12 pl-8 py-2" style="border-left:1px solid var(--outline-color);">
+                        <div>
+                            <h4 class="font-mono text-[10px] uppercase opacity-30 mb-6 font-black tracking-widest" id="panel-tags-label">TECHNOLOGIES</h4>
+                            <div class="flex flex-col gap-3 font-mono text-[13px] font-black uppercase" style="color:var(--accent-color)" id="panel-tags"></div>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-[10px] uppercase opacity-30 mb-3 font-black tracking-widest">TIMESTAMP</h4>
+                            <div class="font-mono text-[14px] font-black uppercase" id="panel-year">2024</div>
+                        </div>
+                        <div id="panel-extra-row">
+                            <h4 class="font-mono text-[10px] uppercase opacity-30 mb-3 font-black tracking-widest" id="panel-extra-label">STATUS</h4>
+                            <div class="font-mono text-[12px] font-black uppercase" style="color:var(--accent-color)" id="panel-extra"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════ SCRIPTS ══════════════════════════ -->
+<script src="js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Wrong Executor — Shreyas Patil</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: { "accent": "#ff5c00" },
+                fontFamily: {
+                    "serif": ["Space Grotesk", "sans-serif"],
+                    "sans": ["Inter", "sans-serif"],
+                    "mono": ["JetBrains Mono", "monospace"]
+                }
+            }
+        }
+    }
+</script>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="antialiased selection:bg-accent selection:text-white">
+
+<div class="fixed inset-0 pointer-events-none brutalist-grid z-0"></div>
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 w-full z-50 px-4 md:px-8 h-20 backdrop-blur-xl border-b" style="background-color:var(--nav-bg); border-color:var(--outline-color);">
+    <div class="h-full w-full flex justify-between items-center max-w-screen-2xl mx-auto">
+        <a href="../index.html#writing" class="font-mono text-[10px] tracking-widest uppercase font-black opacity-50 hover:opacity-100 hover:text-accent transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+            PORTFOLIO
+        </a>
+        <div class="flex items-center gap-3 md:gap-4">
+            <div class="status-indicator hidden sm:flex" id="status-indicator">
+                <span class="status-dot open" id="status-dot"></span>
+                <span id="status-label">OPEN</span>
+            </div>
+            <button aria-label="Toggle Theme" class="p-2 transition-all hover:text-accent flex items-center" onclick="toggleTheme()">
+                <span class="material-symbols-outlined text-[20px] dark:hidden">dark_mode</span>
+                <span class="material-symbols-outlined text-[20px] hidden dark:block">light_mode</span>
+            </button>
+            <a class="text-white px-4 md:px-6 py-2.5 font-mono text-[9px] md:text-[10px] font-black uppercase tracking-[0.18em] hover:brightness-110 transition-all active:scale-95" style="background:var(--accent-color); border-radius:10px;" href="../index.html#find-me">REACH_OUT</a>
+        </div>
+    </div>
+</nav>
+
+<main class="relative z-10 pt-40 px-4 md:px-8 max-w-screen-md mx-auto pb-32">
+    <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-35 mb-6" style="color:var(--accent-color)">BLOG_04 // SYSTEMS PERFORMANCE</div>
+    <h1 class="font-serif text-4xl md:text-6xl font-bold mb-10 tracking-tighter uppercase leading-none">The Wrong Executor</h1>
+    
+    <div class="font-sans text-lg leading-relaxed opacity-85 space-y-10">
+        <div>
+            <h2 class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-50 mb-4 uppercase">01 / CONTEXT</h2>
+            <p>The AgentXBlox medical document pipeline was taking over two minutes for ten pages. The immediate instinct was concurrency — wrap the OpenCV preprocessing in ThreadPoolExecutor and gather it with asyncio. This made things catastrophically worse inside a Temporal worker environment. The workers didn't just get slow. They started dropping requests. Temporal saw timeouts, triggered retries, and the retries made it worse — a cascading doom loop of failures and inflated latency that started from a single wrong tool choice.</p>
+        </div>
+        <div>
+            <h2 class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-50 mb-4 uppercase">02 / INSIGHT</h2>
+            <p>The root cause: OpenCV preprocessing — CLAHE contrast enhancement, bilateral denoising, adaptive resizing, color-aware binarization — is heavily CPU-bound. Threads in CPython fight over the GIL. They don't achieve parallelism for CPU-heavy work; they context-switch rapidly without executing simultaneously. Inside a Temporal worker, this is catastrophic. The ThreadPoolExecutor ties up all available worker threads. The async event loop becomes starved — it can't service heartbeats, it can't process new activities. Temporal detects the missed heartbeats and activity timeouts. It triggers automatic retries. But the retries hit the same starved workers, creating a doom loop of cascading failures and insanely inflated extraction times. The system didn't degrade gracefully; it amplified the failure. Fix: ProcessPoolExecutor spins up separate OS processes — each gets its own Python interpreter, bypasses the GIL entirely, and never touches the event loop thread pool. The I/O-bound OCR API calls (asyncio.gather to the dots-ocr model) use await — control yields during the network wait, batching 10-20 pages simultaneously without blocking. Two tools, two different bottlenecks, one combined 70% latency reduction.</p>
+        </div>
+        <div>
+            <h2 class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-50 mb-4 uppercase">03 / TAKEAWAY</h2>
+            <p>Know your bottleneck before reaching for a concurrency primitive. CPU-bound work — image processing, math, compression — needs ProcessPoolExecutor. It gets its own Python interpreter and bypasses the GIL. I/O-bound work — network calls, API requests, file reads — needs asyncio. The event loop yields while waiting; you get concurrency without threads. Mixing them wrong in a workflow engine context doesn't degrade gracefully. It cascades. The 70% latency drop came from choosing the right primitive, not from adding more of the wrong one.</p>
+        </div>
+    </div>
+</main>
+
+<script src="../js/main.js" defer></script>
+</body>
+</html>

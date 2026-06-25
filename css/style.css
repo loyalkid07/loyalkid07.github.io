@@ -1,0 +1,517 @@
+/* ── Tokens ─────────────────────────────────────────────────────── */
+:root {
+    --bg-color: #f4f4f6;
+    --surface-color: #ffffff;
+    --text-color: #1a1c1c;
+    --accent-color: #ff5c00;
+    --outline-color: rgba(0, 0, 0, 0.10);
+    --grid-color: rgba(0, 0, 0, 0.035);
+    --input-bg: #f0f0f2;
+    --nav-bg: rgba(244, 244, 246, 0.75);
+    --footer-bg: #f4f4f6;
+
+    /* Glass tokens — light */
+    --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.15) 100%);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 1), inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+    --glass-hover-shadow: 0 12px 48px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 1), inset 0 -1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.dark {
+    --bg-color: #0b0b0f;
+    --surface-color: #111116;
+    --text-color: #e8e8e8;
+    --accent-color: #ff5c00;
+    --outline-color: rgba(255, 255, 255, 0.08);
+    --grid-color: rgba(255, 255, 255, 0.018);
+    --input-bg: #16161c;
+    --nav-bg: rgba(14, 14, 20, 0.72);
+    --footer-bg: #0b0b0f;
+
+    /* Glass tokens — dark */
+    --glass-bg: linear-gradient(135deg, rgba(40, 40, 50, 0.35) 0%, rgba(22, 22, 32, 0.1) 100%);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.15), inset 0 -1px 1px rgba(0, 0, 0, 0.3);
+    --glass-hover-shadow: 0 12px 48px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Base ───────────────────────────────────────────────────────── */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.5s cubic-bezier(0.2, 1, 0.3, 1), color 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* ── Glass ──────────────────────────────────────────────────────── */
+.glass-tile {
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 16px;
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.glass-tile:hover {
+    border-color: rgba(255, 92, 0, 0.45);
+    box-shadow: var(--glass-hover-shadow);
+    transform: translateY(-4px);
+}
+
+.glass-pill {
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 9999px;
+    transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.glass-pill:hover {
+    border-color: var(--accent-color);
+    background: rgba(255, 92, 0, 0.07);
+    transform: translateY(-2px);
+}
+
+/* ── Status LED ─────────────────────────────────────────────────── */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 13px;
+    border-radius: 9999px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+@keyframes status-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.55;
+        transform: scale(1.25);
+    }
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    display: inline-block;
+    flex-shrink: 0;
+    animation: status-pulse 2s ease-in-out infinite;
+}
+
+.status-dot.open {
+    background: #22c55e;
+}
+
+.status-dot.busy {
+    background: #f59e0b;
+    animation: none;
+}
+
+/* ── Section divider ────────────────────────────────────────────── */
+.section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 92, 0, 0.22) 30%, rgba(255, 92, 0, 0.22) 70%, transparent);
+    margin-bottom: 2rem;
+}
+
+/* ── Background grid ────────────────────────────────────────────── */
+.brutalist-grid {
+    background-image:
+        linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size: 64px 64px;
+}
+
+/* ── Reveal animation ───────────────────────────────────────────── */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: all 0.9s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Slide panel ────────────────────────────────────────────────── */
+.full-panel {
+    transition: transform 0.75s cubic-bezier(0.85, 0, 0.15, 1), opacity 0.35s ease;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(100%);
+    background-color: var(--bg-color);
+}
+
+.full-panel.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+}
+
+/* ── Nav layout ─────────────────────────────────────────────────── */
+.nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+}
+
+/* ── Experience entries ─────────────────────────────────────────── */
+.exp-entry {
+    padding: 40px;
+}
+
+@media (max-width: 768px) {
+    .exp-entry {
+        padding: 24px;
+    }
+}
+
+/* ── Horizontal scroll (≥ md: JS transform; < md: native snap) ── */
+.horizontal-scroll-container {
+    position: relative;
+    height: 350vh;
+}
+
+.horizontal-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.horizontal-track {
+    display: flex;
+    padding-left: var(--margin-desktop, 32px);
+    gap: 32px;
+    will-change: transform;
+    transition: transform 0.1s linear;
+}
+
+.project-tile,
+.writing-tile {
+    flex: 0 0 580px;
+    height: 560px;
+}
+
+.writing-tile-ghost {
+    flex: 0 0 380px;
+    height: 560px;
+    pointer-events: none;
+}
+
+/* Mobile: native horizontal scroll + snap — JS transform disabled */
+@media (max-width: 767px) {
+    .horizontal-scroll-container {
+        height: auto;
+    }
+
+    .horizontal-sticky {
+        position: relative;
+        height: auto;
+        overflow-x: auto;
+        overflow-y: visible;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        align-items: stretch;
+        padding-bottom: 20px;
+    }
+
+    .horizontal-sticky::-webkit-scrollbar {
+        display: none;
+    }
+
+    .horizontal-track {
+        padding-left: 16px;
+        padding-right: 16px;
+        transform: none !important;
+    }
+
+    .project-tile,
+    .writing-tile {
+        flex: 0 0 85vw;
+        min-height: 400px;
+        height: auto;
+        scroll-snap-align: start;
+    }
+
+    .writing-tile-ghost {
+        flex: 0 0 70vw;
+        min-height: 380px;
+        height: auto;
+    }
+}
+
+/* ── Writing grid mode ──────────────────────────────────────────── */
+.writing-container-grid {
+    height: auto !important;
+}
+
+.writing-container-grid .horizontal-sticky {
+    position: relative !important;
+    height: auto !important;
+    width: 100% !important;
+    overflow: visible !important;
+    padding-top: 60px;
+}
+
+.writing-container-grid .horizontal-track {
+    display: grid !important;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 24px;
+    padding: 0 16px;
+    max-width: 1440px;
+    margin: 0 auto;
+    transform: none !important;
+}
+
+@media (min-width: 768px) {
+    .writing-container-grid .horizontal-track {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 0 32px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .writing-container-grid .horizontal-track {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.writing-container-grid .writing-tile,
+.writing-container-grid .writing-tile-ghost {
+    flex: none !important;
+    height: 460px !important;
+}
+
+/* ── Form ───────────────────────────────────────────────────────── */
+.input-field {
+    background-color: var(--input-bg);
+    border: 1px solid var(--outline-color);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(255, 92, 0, 0.18);
+}
+
+.input-error {
+    border-color: #ba1a1a !important;
+    box-shadow: 0 0 0 2px rgba(186, 26, 26, 0.18) !important;
+}
+
+.error-msg {
+    color: #ba1a1a;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-top: 4px;
+    display: none;
+}
+
+.error-msg.visible {
+    display: block;
+}
+
+/* ── Ghost tile pulse ───────────────────────────────────────────── */
+@keyframes ghost-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.18;
+        transform: scale(0.75);
+    }
+}
+
+.ghost-pulse-dot {
+    animation: ghost-pulse 2.8s ease-in-out infinite;
+}
+
+/* ── Panel toggled elements ─────────────────────────────────────── */
+#panel-s3-section {
+    display: none;
+}
+
+#panel-s3-section.visible {
+    display: block;
+}
+
+#panel-extra-row {
+    display: none;
+}
+
+#panel-extra-row.visible {
+    display: block;
+}
+
+/* ── CTA hero links ─────────────────────────────────────────────── */
+.hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.hero-cta-primary {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.hero-cta-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.hero-cta-secondary {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    color: var(--text-color);
+}
+
+.hero-cta-secondary:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: translateY(-1px);
+}
+
+/* ── Stack pill group ───────────────────────────────────────────── */
+.stack-group {
+    margin-bottom: 20px;
+}
+
+.stack-group-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.35;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.stack-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 13px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 9999px;
+    margin: 3px 3px 3px 0;
+}
+
+/* ── Link cards (FIND ME section) ─────────────────────────── */
+.link-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px 32px;
+    min-height: 160px;
+    text-decoration: none;
+    color: var(--text-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.link-card::after {
+    content: '↗';
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    font-size: 18px;
+    opacity: 0.2;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.link-card:hover::after {
+    opacity: 0.8;
+    transform: translate(2px, -2px);
+}
+
+.link-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.35;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.link-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.link-card-url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    opacity: 0.35;
+    margin-top: 10px;
+    display: block;
+}
+
+/* ── Section micro-tints ────────────────────────────────────────── */
+#about {
+    background: linear-gradient(180deg, transparent, rgba(255, 92, 0, 0.012) 50%, transparent);
+}

@@ -1,0 +1,30 @@
+# Virtual environments
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+Context_Bin/
+Shreyas_Patil_Resume_old.pdf
+Shreyas_Patil_Resume_old2.pdf
+Shreyas_Patil_Resume_old3.pdf
+*.aux
+*.log
+*.out
+*.synctex.gz
