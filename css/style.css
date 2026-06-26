@@ -289,6 +289,7 @@ body {
     width: 100% !important;
     overflow: visible !important;
     padding-top: 60px;
+    display: block !important;
 }
 
 .writing-container-grid .horizontal-track {

@@ -112,7 +112,7 @@
             Engineering for Impact.
         </p>
         <p class="font-sans text-base md:text-lg max-w-xl leading-relaxed font-medium opacity-55 mt-6 mb-10">
-            Building production AI systems that hold under load. Specializing in orchestration, multi-agent frameworks, inference optimization, and resilient memory architectures.
+            Building AI systems for production. My work cuts across agentic AI, distributed systems, ML infrastructure, and context engineering—from model inference and orchestration to the user experience.
         </p>
     </section>
 
@@ -125,85 +125,70 @@
                 <span>01 — WHO I AM</span>
             </div>
         </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
 
             <!-- Bio -->
             <div class="lg:col-span-7">
                 <h2 class="font-serif text-3xl md:text-5xl font-bold mb-10 tracking-tight leading-[0.88]">I pick the hard problem.<br/>Not the safe one.</h2>
                 <div class="space-y-7 font-sans text-lg leading-relaxed opacity-75 mb-10">
-                    <p>I build production AI systems. At Xcaliber Health, I developed <strong>Merlin</strong>, a multi-agent framework orchestrating healthcare workflows on Ray Serve, and shipped an asynchronous document validation pipeline that eliminated dead-air latency. For the internal <strong>Agent Development Kit (ADK)</strong>, I designed its initial long-term memory module using Redis and Kuzu DB.</p>
-                    <p>I focus on solving real bottlenecks. For <strong>AgentXBlox</strong>, I accelerated OCR processing by 70% across 10,000+ pages by fixing GIL-constrained concurrency bottlenecks, and cut LLM token consumption by 60%+ through entity-specific routing.</p>
+                    <p>Most recently at Xcaliber Health, I developed <strong>Merlin</strong>—a multi-agent framework orchestrating secure healthcare workflows on Ray Serve. I also architected its long-term memory system using Redis and Kuzu DB, giving agents persistent context across complex, multi-step sessions.</p>
+                    <p>Beyond the architecture, I focus on eliminating the bottlenecks that kill production systems. Recently, that meant rewriting an OCR pipeline to bypass concurrency limits (speeding it up by 70%) and building entity-specific routers that slashed LLM token consumption by over 60%. I write code that makes AI fast and cheap to run.</p>
+                    <p>When I'm AFK, I'm usually swimming, in the gym, out on a ride, or buried in a good book.</p>
                 </div>
-                <a class="hero-cta hero-cta-secondary inline-block" href="about.html">→ KNOW MORE ABOUT ME</a>
             </div>
 
             <!-- Core Stack -->
-            <div class="lg:col-span-5">
+            <div class="lg:col-span-5 relative">
+                <div class="mb-10 flex flex-col items-start gap-4 lg:-mt-8">
+                    <div>
+                        <h3 class="font-serif text-3xl md:text-4xl font-bold tracking-tight" style="color:var(--accent-color)">Shreyas Patil</h3>
+                        <p class="font-sans text-sm opacity-55 mt-1 font-medium">AI/ML Engineer · Bengaluru, IN</p>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot open"></span>
+                        <span class="text-[9px]">OPEN TO ROLES</span>
+                    </div>
+                </div>
                 <p class="font-mono text-[10px] font-black uppercase tracking-widest mb-8" style="color:var(--accent-color)">// CORE_STACK</p>
 
                 <div class="stack-group">
                     <span class="stack-group-label">Orchestration</span>
                     <div>
-                        <span class="stack-pill glass-pill">Temporal</span>
                         <span class="stack-pill glass-pill">Ray</span>
+                        <span class="stack-pill glass-pill">Temporal</span>
                     </div>
                 </div>
                 <div class="stack-group">
                     <span class="stack-group-label">Inference</span>
                     <div>
+                        <span class="stack-pill glass-pill">PyTorch</span>
                         <span class="stack-pill glass-pill">vLLM</span>
-                        <span class="stack-pill glass-pill">Bedrock</span>
-                        <span class="stack-pill glass-pill">FastAPI</span>
                         <span class="stack-pill glass-pill">LiteLLM</span>
+                        <span class="stack-pill glass-pill">FastAPI</span>
                     </div>
                 </div>
                 <div class="stack-group">
-                    <span class="stack-group-label">Memory</span>
+                    <span class="stack-group-label">Memory & Data</span>
                     <div>
+                        <span class="stack-pill glass-pill">Iceberg</span>
+                        <span class="stack-pill glass-pill">OpenSearch</span>
                         <span class="stack-pill glass-pill">Kuzu DB</span>
-                        <span class="stack-pill glass-pill">GraphRAG</span>
                         <span class="stack-pill glass-pill">Redis</span>
-                        <span class="stack-pill glass-pill">Aurora</span>
                     </div>
                 </div>
                 <div class="stack-group">
                     <span class="stack-group-label">Observability</span>
                     <div>
-                        <span class="stack-pill glass-pill">Langfuse</span>
                         <span class="stack-pill glass-pill">OpenTelemetry</span>
-                        <span class="stack-pill glass-pill">DeepEval</span>
+                        <span class="stack-pill glass-pill">Langfuse</span>
                     </div>
                 </div>
                 <div class="stack-group">
-                    <span class="stack-group-label">Processing</span>
+                    <span class="stack-group-label">Core Platform</span>
                     <div>
-                        <span class="stack-pill glass-pill">PyArrow</span>
-                        <span class="stack-pill glass-pill">OpenCV</span>
-                        <span class="stack-pill glass-pill">Pydantic</span>
-                        <span class="stack-pill glass-pill">AsyncIO</span>
-                        <span class="stack-pill glass-pill">DSPy</span>
-                    </div>
-                </div>
-                <div class="stack-group">
-                    <span class="stack-group-label">Voice & Streaming</span>
-                    <div>
-                        <span class="stack-pill glass-pill">Twilio</span>
+                        <span class="stack-pill glass-pill">AWS</span>
                         <span class="stack-pill glass-pill">WebSockets</span>
-                        <span class="stack-pill glass-pill">Nova Sonic</span>
-                    </div>
-                </div>
-                <div class="stack-group">
-                    <span class="stack-group-label">Standards</span>
-                    <div>
-                        <span class="stack-pill glass-pill">FHIR</span>
-                    </div>
-                </div>
-                <div class="stack-group">
-                    <span class="stack-group-label">Languages</span>
-                    <div>
-                        <span class="stack-pill glass-pill">Python</span>
-                        <span class="stack-pill glass-pill">C++</span>
-                        <span class="stack-pill glass-pill">SQL</span>
                     </div>
                 </div>
             </div>
@@ -236,36 +221,27 @@
                 <div class="w-full h-px mb-8" style="background:var(--outline-color)"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     <div class="lg:col-span-8">
-                        <ul class="font-sans text-base md:text-lg leading-relaxed opacity-75 space-y-4 mb-8">
-                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Designed and deployed <strong>"Merlin"</strong>, a production multi-agent system on <strong>Ray Serve</strong> orchestrating secure healthcare workflows. Built tool integrations for appointment scheduling and demographic updates via strictly-typed FHIR payloads to <strong>Athena EHR</strong>.</span></li>
-                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Owned an <strong>async document validation workflow</strong> for mid-call ID uploads via WhatsApp/SMS. Integrated with the Temporal OCR pipeline and replaced 3-second polling loops with event-driven Redis updates, instantly returning data to the live Bedrock voice session.</span></li>
-                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Collaborated on migrating a monolithic voice agent to a <strong>dynamic routing architecture</strong> for seamless mid-call handoffs. Resolved LLM barge-in hallucinations via explicit Twilio audio-buffer flushes.</span></li>
-                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Designed a long-term memory module for the internal <strong>Agent Development Kit (ADK)</strong>. Buffered active conversations in <strong>Redis</strong> while a <strong>Temporal</strong>-backed pipeline distilled salient facts and persisted them into a <strong>Kuzu DB</strong> knowledge graph.</span></li>
-                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Resolved critical failures in the ADK's agent runtime: a session-isolation defect leaking context across concurrent calls and a state-propagation bug. Redesigned DAG state management and migrated session history to Redis, enabling horizontal scaling.</span></li>
-                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Accelerated a <strong>Temporal</strong>-backed OCR pipeline by <strong>70%</strong> across <strong>10,000+ pages</strong> by benchmarking frontier vision models and parallelizing CPU-intensive OpenCV preprocessing via a process pool. Slashed LLM token consumption by <strong>60%</strong> by implementing document-specific entity extraction mappings.</span></li>
+                        <p class="font-sans text-base md:text-lg leading-relaxed opacity-75 mb-6">
+                            Engineered the core infrastructure for autonomous healthcare agents. I built <strong>Merlin</strong>, a Ray Serve multi-agent framework that natively interfaces with Athena EHR, and designed the system's long-term memory architecture using Kuzu DB and Redis.
+                        </p>
+                        <ul class="font-sans text-base md:text-lg leading-relaxed opacity-75 space-y-3 mb-8">
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span><strong>Performance:</strong> Re-architected a Temporal OCR pipeline to bypass concurrency limits, dropping processing times by 70% across 10,000+ medical documents.</span></li>
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span><strong>Optimization:</strong> Slashed LLM token consumption by 60%+ through precise entity routing.</span></li>
+                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span><strong>Resilience:</strong> Eliminated dead-air latency in voice agents by replacing 3-second polling loops with event-driven architectures.</span></li>
                         </ul>
                     </div>
                     <div class="lg:col-span-4">
                         <div class="flex flex-wrap gap-2">
+                            <span class="stack-pill glass-pill text-[9px]">Ray Serve</span>
                             <span class="stack-pill glass-pill text-[9px]">Temporal</span>
-                            <span class="stack-pill glass-pill text-[9px]">Ray</span>
-                            <span class="stack-pill glass-pill text-[9px]">FastAPI</span>
-                            <span class="stack-pill glass-pill text-[9px]">Claude 3.5</span>
-                            <span class="stack-pill glass-pill text-[9px]">Bedrock</span>
-                            <span class="stack-pill glass-pill text-[9px]">Twilio</span>
-                            <span class="stack-pill glass-pill text-[9px]">WebSockets</span>
                             <span class="stack-pill glass-pill text-[9px]">Kuzu DB</span>
                             <span class="stack-pill glass-pill text-[9px]">Redis</span>
-                            <span class="stack-pill glass-pill text-[9px]">Aurora</span>
+                            <span class="stack-pill glass-pill text-[9px]">AWS Bedrock</span>
+                            <span class="stack-pill glass-pill text-[9px]">Twilio</span>
                             <span class="stack-pill glass-pill text-[9px]">FHIR</span>
-                            <span class="stack-pill glass-pill text-[9px]">OpenCV</span>
-                            <span class="stack-pill glass-pill text-[9px]">PyArrow</span>
-                            <span class="stack-pill glass-pill text-[9px]">Pydantic</span>
-                            <span class="stack-pill glass-pill text-[9px]">LiteLLM</span>
                             <span class="stack-pill glass-pill text-[9px]">DSPy</span>
                             <span class="stack-pill glass-pill text-[9px]">Langfuse</span>
                             <span class="stack-pill glass-pill text-[9px]">OpenTelemetry</span>
-                            <span class="stack-pill glass-pill text-[9px]">Python</span>
                         </div>
                     </div>
                 </div>
@@ -285,10 +261,9 @@
                 <div class="w-full h-px mb-8" style="background:var(--outline-color)"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     <div class="lg:col-span-8">
-                        <ul class="font-sans text-base md:text-lg leading-relaxed opacity-75 space-y-4">
-                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Prototyped an <strong>LLM-driven pipeline</strong> for automated technical assessments, utilizing Python (<code class="font-mono text-sm px-1 rounded" style="background:var(--input-bg)">ast</code>) to extract candidate code features for dynamic analysis.</span></li>
-                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Improved evaluation pipeline reliability by building <strong>Docker</strong> containers and <strong>Kubernetes</strong> deployment configurations for agentic workflows.</span></li>
-                        </ul>
+                        <p class="font-sans text-base md:text-lg leading-relaxed opacity-75">
+                            Prototyped evaluation pipelines for automated technical assessments. I extracted dynamic code features using Python AST and containerized agentic execution environments with Docker and Kubernetes to ensure reliable pipeline execution.
+                        </p>
                     </div>
                     <div class="lg:col-span-4">
                         <div class="flex flex-wrap gap-2">
@@ -315,10 +290,9 @@
                 <div class="w-full h-px mb-8" style="background:var(--outline-color)"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     <div class="lg:col-span-8">
-                        <ul class="font-sans text-base md:text-lg leading-relaxed opacity-75 space-y-4">
-                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Implemented data filtering and toxicity analysis on a massive, 8-language <strong>image-text dataset</strong> used to pretrain the <strong>Maya</strong> vision-language model.</span></li>
-                            <li class="flex gap-4"><span class="font-bold mt-1 flex-shrink-0" style="color:var(--accent-color)">—</span><span>Conducted cross-lingual verification for cultural coherence, directly contributing to the project winning the "Most Promising Project" award at Expedition Aya 2024.</span></li>
-                        </ul>
+                        <p class="font-sans text-base md:text-lg leading-relaxed opacity-75">
+                            Collaborated with the open-science community on data curation for the <a href="https://huggingface.co/maya-multimodal" target="_blank" rel="noopener noreferrer" class="font-bold underline decoration-1 underline-offset-4 hover:text-accent transition-colors" style="text-decoration-color:var(--accent-color)">Maya</a> vision-language model. I contributed to multilingual toxicity filtering and cross-lingual coherence evaluation across an 8-language dataset, an effort that collectively won the "Most Promising Project" award at Expedition Aya 2024.
+                        </p>
                     </div>
                     <div class="lg:col-span-4">
                         <div class="flex flex-wrap gap-2">
@@ -346,56 +320,19 @@
             </div>
             <div class="horizontal-track" id="horizontal-track-work">
 
-                <!-- Project 1: Pulse -->
-                <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('pulse')" style="border-radius:16px;">
+                <!-- Project 1: Diff-Whisperer -->
+                <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('diff-whisperer')" style="border-radius:16px;">
                     <div>
                         <div class="flex justify-between items-start mb-10">
-                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">01_PULSE</div>
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">01_DIFF_WHISPERER</div>
                             <div class="flex gap-2 flex-wrap justify-end">
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Claude</span>
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Redis</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">MCP</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Docker</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">K8s</span>
                             </div>
                         </div>
-                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Personal Biometric Intelligence</h2>
-                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">Google Health webhooks → Redis Streams → Claude Haiku analysis → Twilio WhatsApp + Wear OS haptics. Real-time self-monitoring on near-zero-budget infrastructure.</p>
-                    </div>
-                    <div class="flex justify-between items-center mt-10">
-                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">EXPLORE_PROJECT →</span>
-                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">2025</span>
-                    </div>
-                </div>
-
-                <!-- Project 2: LLM Gateway -->
-                <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('gateway')" style="border-radius:16px;">
-                    <div>
-                        <div class="flex justify-between items-start mb-10">
-                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">02_LLM_GATEWAY</div>
-                            <div class="flex gap-2 flex-wrap justify-end">
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">ONNX</span>
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Redis</span>
-                            </div>
-                        </div>
-                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">LLM Gateway</h2>
-                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">OpenAI-compatible HTTP gateway with a speculative preflight pipeline. The small model thinks; the large model generates.</p>
-                    </div>
-                    <div class="flex justify-between items-center mt-10">
-                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">EXPLORE_PROJECT →</span>
-                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">2025–2026</span>
-                    </div>
-                </div>
-
-                <!-- Project 3: Serving Engine -->
-                <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('serving')" style="border-radius:16px;">
-                    <div>
-                        <div class="flex justify-between items-start mb-10">
-                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">03_SERVING_ENGINE</div>
-                            <div class="flex gap-2 flex-wrap justify-end">
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">CUDA</span>
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">C++</span>
-                            </div>
-                        </div>
-                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Custom LLM Serving Engine</h2>
-                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">Ground-up synthesis of vLLM, SGLang, and llama.cpp. A first-principles LLM inference engine.</p>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Diff-Whisperer</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">An MCP server that normalizes and diffs logs across Docker and Kubernetes to surface new failure modes and frequency regressions.</p>
                     </div>
                     <div class="flex justify-between items-center mt-10">
                         <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">EXPLORE_PROJECT →</span>
@@ -403,11 +340,31 @@
                     </div>
                 </div>
 
-                <!-- Project 4: MT Pipeline -->
+                <!-- Project 2: AgentVault -->
+                <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('agentvault')" style="border-radius:16px;">
+                    <div>
+                        <div class="flex justify-between items-start mb-10">
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">02_AGENT_VAULT</div>
+                            <div class="flex gap-2 flex-wrap justify-end">
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Agents</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Ray</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Redis</span>
+                            </div>
+                        </div>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">AgentVault</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">A stateless-by-design Python library for creating LLM agents. Features concurrent tool execution, pluggable state backends, and strict verification loops.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">EXPLORE_PROJECT →</span>
+                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">2026</span>
+                    </div>
+                </div>
+
+                <!-- Project 3: MT Pipeline -->
                 <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('mt')" style="border-radius:16px;">
                     <div>
                         <div class="flex justify-between items-start mb-10">
-                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">04_MT_PIPELINE</div>
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">03_MT_PIPELINE</div>
                             <div class="flex gap-2 flex-wrap justify-end">
                                 <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">LoRA</span>
                                 <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">NLP</span>
@@ -422,11 +379,11 @@
                     </div>
                 </div>
 
-                <!-- Project 5: ABSA -->
+                <!-- Project 4: ABSA -->
                 <div class="project-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" onclick="togglePanel('absa')" style="border-radius:16px;">
                     <div>
                         <div class="flex justify-between items-start mb-10">
-                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">05_ABSA</div>
+                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">04_ABSA</div>
                             <div class="flex gap-2 flex-wrap justify-end">
                                 <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Bi-LSTM</span>
                                 <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Attention</span>
@@ -458,79 +415,23 @@
             </div>
             <div class="horizontal-track" id="horizontal-track-writing">
 
-                <!-- Blog 1: Preflight Thesis -->
-                <a href="blogs/preflight.html" class="writing-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" style="border-radius:16px; text-decoration:none; color:inherit;">
+                <!-- Blog 1: Doom Loop -->
+                <a href="blogs/doom-loop.html" class="writing-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" style="border-radius:16px; text-decoration:none; color:inherit;">
                     <div>
                         <div class="flex justify-between items-start mb-10">
                             <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">BLOG_01</div>
                             <div class="flex gap-2 flex-wrap justify-end">
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Architecture</span>
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">LLM</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Python</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">AsyncIO</span>
+                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Multiprocessing</span>
                             </div>
                         </div>
-                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">The Preflight Thesis</h2>
-                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">Why the small model should do all the thinking — and the large model should only generate. A case for moving intelligence upstream.</p>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">1000 Pages, 8 Hours, and a Doom Loop</h2>
+                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">What really happens when you throw threads at the GIL — and the three wrong moves I made before I actually fixed it.</p>
                     </div>
                     <div class="flex justify-between items-center mt-10">
                         <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">READ_MORE →</span>
                         <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">~8 MIN</span>
-                    </div>
-                </a>
-
-                <!-- Blog 2: Temporal as Safety -->
-                <a href="blogs/temporal.html" class="writing-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" style="border-radius:16px; text-decoration:none; color:inherit;">
-                    <div>
-                        <div class="flex justify-between items-start mb-10">
-                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">BLOG_02</div>
-                            <div class="flex gap-2 flex-wrap justify-end">
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Distributed</span>
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Clinical AI</span>
-                            </div>
-                        </div>
-                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Temporal as a Safety Feature</h2>
-                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">In clinical multi-agent systems, session isolation isn't a nice-to-have — it's the safety boundary. Why workflow engines are the right primitive.</p>
-                    </div>
-                    <div class="flex justify-between items-center mt-10">
-                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">READ_MORE →</span>
-                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">~6 MIN</span>
-                    </div>
-                </a>
-
-                <!-- Blog 3: Context Engineering -->
-                <a href="blogs/context-engineering.html" class="writing-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" style="border-radius:16px; text-decoration:none; color:inherit;">
-                    <div>
-                        <div class="flex justify-between items-start mb-10">
-                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">BLOG_03</div>
-                            <div class="flex gap-2 flex-wrap justify-end">
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Context Eng.</span>
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">GraphRAG</span>
-                            </div>
-                        </div>
-                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">Beyond RAG</h2>
-                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">Context engineering for production agent memory. How a three-tier system eliminates context fragmentation without destroying the context window — or your prompt caching economics.</p>
-                    </div>
-                    <div class="flex justify-between items-center mt-10">
-                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">READ_MORE →</span>
-                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">~10 MIN</span>
-                    </div>
-                </a>
-
-                <!-- Blog 4: Python Concurrency -->
-                <a href="blogs/concurrency.html" class="writing-tile glass-tile p-10 md:p-12 cursor-pointer flex flex-col justify-between group" style="border-radius:16px; text-decoration:none; color:inherit;">
-                    <div>
-                        <div class="flex justify-between items-start mb-10">
-                            <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-25 group-hover:opacity-100 transition-opacity">BLOG_04</div>
-                            <div class="flex gap-2 flex-wrap justify-end">
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Systems</span>
-                                <span class="glass-pill px-3 py-1 font-mono text-[9px] uppercase font-bold">Python</span>
-                            </div>
-                        </div>
-                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-7 tracking-tighter uppercase leading-none">The Wrong Executor</h2>
-                        <p class="font-sans text-base leading-relaxed font-medium opacity-55 group-hover:opacity-85 transition-opacity max-w-md">How a ThreadPoolExecutor for CPU-bound OpenCV work caused Temporal worker starvation and a cascading retry doom loop — and what actually fixed it.</p>
-                    </div>
-                    <div class="flex justify-between items-center mt-10">
-                        <span class="font-mono text-[10px] font-black group-hover:text-accent tracking-[0.18em] uppercase transition-colors">READ_MORE →</span>
-                        <span class="font-mono text-[9px] opacity-25 uppercase tracking-widest">~7 MIN</span>
                     </div>
                 </a>
 

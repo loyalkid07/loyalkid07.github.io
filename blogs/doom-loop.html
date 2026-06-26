@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>1000 Pages, 8 Hours, and a Doom Loop — Shreyas Patil</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: { "accent": "#ff5c00" },
+                fontFamily: {
+                    "serif": ["Space Grotesk", "sans-serif"],
+                    "sans": ["Inter", "sans-serif"],
+                    "mono": ["JetBrains Mono", "monospace"]
+                }
+            }
+        }
+    }
+</script>
+<link rel="stylesheet" href="../css/style.css">
+<!-- Mermaid for diagrams -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ 
+      startOnLoad: true, 
+      theme: 'dark', 
+      themeVariables: {
+          primaryColor: '#1a1a1a',
+          primaryTextColor: '#fff',
+          primaryBorderColor: '#333',
+          lineColor: '#555',
+          secondaryColor: '#2a2a2a',
+          tertiaryColor: '#111',
+          fontFamily: 'JetBrains Mono',
+      } 
+  });
+</script>
+<style>
+/* Custom Code Block Styling */
+pre { background: var(--input-bg); border: 1px solid var(--outline-color); border-radius: 8px; padding: 1.5rem; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--text-color); line-height: 1.6; margin-bottom: 2rem; }
+code { font-family: 'JetBrains Mono', monospace; }
+p code, li code { background: var(--input-bg); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+h2 { font-family: 'JetBrains Mono', monospace; font-size: 1rem; letter-spacing: 0.2em; font-weight: 700; opacity: 0.8; margin-bottom: 4rem; text-transform: uppercase; margin-top: 6rem; border-bottom: 1px solid var(--outline-color); padding-bottom: 2rem; }
+h3 { font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--accent-color); margin-top: 4.5rem; margin-bottom: 2rem; }
+p { margin-bottom: 2.5rem; font-family: 'Inter', sans-serif; font-size: 1.15rem; line-height: 1.9; opacity: 0.85; }
+ul { margin-bottom: 2.5rem; padding-left: 1.75rem; list-style-type: disc; font-family: 'Inter', sans-serif; font-size: 1.15rem; line-height: 1.9; opacity: 0.85; }
+li { margin-bottom: 1.25rem; }
+.blog-content strong { color: var(--text-color); font-weight: 700; opacity: 1; }
+</style>
+</head>
+<body class="antialiased selection:bg-accent selection:text-white">
+
+<div class="fixed inset-0 pointer-events-none brutalist-grid z-0"></div>
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 w-full z-50 px-4 md:px-8 h-20 backdrop-blur-xl border-b" style="background-color:var(--nav-bg); border-color:var(--outline-color);">
+    <div class="h-full w-full flex justify-between items-center max-w-screen-2xl mx-auto">
+        <a href="../index.html#writing" class="font-mono text-[10px] tracking-widest uppercase font-black opacity-50 hover:opacity-100 hover:text-accent transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+            PORTFOLIO
+        </a>
+        <div class="flex items-center gap-3 md:gap-4">
+            <div class="status-indicator hidden sm:flex" id="status-indicator">
+                <span class="status-dot open" id="status-dot"></span>
+                <span id="status-label">OPEN</span>
+            </div>
+            <button aria-label="Toggle Theme" class="p-2 transition-all hover:text-accent flex items-center" onclick="toggleTheme()">
+                <span class="material-symbols-outlined text-[20px] dark:hidden">dark_mode</span>
+                <span class="material-symbols-outlined text-[20px] hidden dark:block">light_mode</span>
+            </button>
+            <a class="text-white px-4 md:px-6 py-2.5 font-mono text-[9px] md:text-[10px] font-black uppercase tracking-[0.18em] hover:brightness-110 transition-all active:scale-95" style="background:var(--accent-color); border-radius:10px;" href="../index.html#find-me">REACH_OUT</a>
+        </div>
+    </div>
+</nav>
+
+<main class="relative z-10 pt-40 px-4 md:px-8 max-w-[800px] mx-auto pb-32 blog-content">
+    <div class="font-mono text-[11px] tracking-[0.2em] font-bold opacity-35 mb-6" style="color:var(--accent-color)">BLOG_01 // ARCHITECTURE</div>
+    <h1 class="font-serif text-4xl md:text-6xl font-bold mb-6 tracking-tighter uppercase leading-none" style="color:var(--text-color);">1000 Pages, 8 Hours, and a Doom Loop</h1>
+    <p class="font-mono text-sm opacity-60 mb-16 italic" style="color:var(--accent-color)">What really happens when you throw threads at the GIL — and the three wrong moves I made before I actually fixed it.</p>
+    
+    <!-- Hero Banner -->
+    <div class="w-full aspect-[21/9] flex items-center justify-center border mb-16 relative overflow-hidden" style="background:var(--input-bg); border-color:var(--outline-color); border-radius: 12px;">
+        <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, var(--accent-color) 0, var(--accent-color) 1px, transparent 1px, transparent 10px);"></div>
+        <div class="font-serif text-[120px] md:text-[180px] font-black tracking-tighter opacity-10 uppercase leading-none">8 HOURS</div>
+        <div class="absolute font-mono text-[10px] tracking-[0.4em] uppercase font-bold" style="color:var(--accent-color)">SYSTEM UNDER LOAD</div>
+    </div>
+
+    <h2 class="flex items-end gap-4 md:gap-6">
+    <span class="text-5xl md:text-6xl font-black leading-none opacity-50" style="color:var(--accent-color)">01</span>
+    <span class="pb-2">The Setup</span>
+</h2>
+    <p>Picture a pipeline that takes in scanned, multi-page PDF documents, turns each page into an image, cleans that image up, and then sends it to an OCR model to extract the text. The OCR step was already running concurrently, and it worked well — a page came in, an async call went out to the OCR model, and while it waited on the network, the event loop went and started the next page. Clean, fast, no drama.</p>
+    <p>So when I got to the preprocessing step — the OpenCV stage before OCR even sees an image, doing adaptive resizing, contrast enhancement, denoising — the logic seemed obvious. Parallelism had just worked for one stage of this pipeline. Why wouldn't it work for the next one too? I reached for the same instinct: throw it on a thread pool, let <code>asyncio.gather</code> fan it out, and let it run.</p>
+    
+    <pre><code>with ThreadPoolExecutor(max_workers=max_preprocessing_workers) as executor:
+    preprocessed_pages = await asyncio.gather(
+        *[loop.run_in_executor(executor, preprocess_page, page) for page in page_images]
+    )</code></pre>
+    
+    <p>On small test files this looked completely fine. A few pages, a couple seconds saved, nothing alarming. I moved on, half-aware that OpenCV's C++ calls release the GIL while they run, which I took as evidence that threading the whole stage was basically safe. I hadn't actually thought through how much of the work — the NumPy array handling, the encode/decode, the orchestration code itself — never leaves Python at all, and never releases anything.</p>
+
+    <h2 class="flex items-end gap-4 md:gap-6">
+    <span class="text-5xl md:text-6xl font-black leading-none opacity-50" style="color:var(--accent-color)">02</span>
+    <span class="pb-2">The Nightmare</span>
+</h2>
+    <p>Then we started benchmarking against real volume — large, multi-hundred-page scanned documents, the kind this pipeline actually has to deal with in production, not clean test fixtures.</p>
+    <p>It fell apart. Not "slow" — falling apart. Activities timing out. The workflow engine retrying work that hadn't actually failed. Long stretches where the workflow just sat there, stalled, doing nothing visible at all. I sat through a full run on an 1,100-page document just to see it through to the end: almost 8 hours, most of it not real processing time but the pipeline tripping over itself.</p>
+    <p>My first move was the obvious one: bump <code>max_preprocessing_workers</code> higher. More workers, more parallelism, right? It didn't help. If anything it made things worse — more threads fighting over the same lock isn't more throughput, it's more traffic at the same intersection.</p>
+    <p>Second move: add more retries on the activity running both preprocessing and OCR. This felt reasonable at the time — activities were timing out, so give them more chances to succeed. I didn't yet understand that I was feeding the exact thing that was breaking everything: every retry threw more preprocessing work at a process that was already starved and struggling, which meant more contention, which meant more timeouts, which meant more retries. I was pouring fuel on a fire I couldn't see yet.</p>
+    <p>Third move, and I'll just say it plainly: I disabled preprocessing entirely. Not an engineering decision — a relief valve. I'd been watching the same benchmark fail for long enough that I needed it to just stop, so I could think without a retry storm running in the background. It worked, in the sense that the pain stopped. It didn't fix anything.</p>
+    <p>None of the three touched what was actually wrong. They were all reactions to a symptom I hadn't named yet. At some point I stopped trying to make the failure go away and started trying to understand why it was happening at all — and that's the part that actually mattered.</p>
+    <p>The benchmark numbers, once I started logging them properly instead of just living through them, made the shape of the problem visible before I had a name for it:</p>
+
+    <!-- Scaling chart with variance using CSS Grid -->
+    <div class="my-12 p-8 border" style="background:var(--input-bg); border-color:var(--outline-color); border-radius: 12px;">
+        <div class="font-mono text-[10px] tracking-widest uppercase font-bold mb-8 opacity-50">Variance Scaling Matrix</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- 300 Pages -->
+            <div class="flex flex-col">
+                <div class="font-mono text-sm font-bold mb-2 text-white">300 PAGES</div>
+                <div class="h-48 relative flex items-end border-l border-b pb-2 pl-2" style="border-color:var(--outline-color);">
+                    <div class="w-full relative h-full flex justify-center">
+                        <!-- Expected (Linear) -->
+                        <div class="absolute bottom-0 w-4 border-t-2 border-dashed border-gray-500 h-[30%] opacity-50"></div>
+                        <!-- Actual Spread -->
+                        <div class="absolute bottom-[25%] w-8 rounded-sm opacity-90 h-[5%]" style="background:var(--accent-color);"></div>
+                        <div class="absolute bottom-0 text-[10px] font-mono text-center w-full mt-2 translate-y-full">2.5–3 hrs</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 600 Pages -->
+            <div class="flex flex-col">
+                <div class="font-mono text-sm font-bold mb-2 text-white">600 PAGES</div>
+                <div class="h-48 relative flex items-end border-b pb-2" style="border-color:var(--outline-color);">
+                    <div class="w-full relative h-full flex justify-center">
+                        <!-- Expected (Linear) -->
+                        <div class="absolute bottom-0 w-4 border-t-2 border-dashed border-gray-500 h-[60%] opacity-50"></div>
+                        <!-- Actual Spread -->
+                        <div class="absolute bottom-[40%] w-8 rounded-sm opacity-90 h-[20%]" style="background:var(--accent-color);"></div>
+                        <div class="absolute bottom-0 text-[10px] font-mono text-center w-full mt-2 translate-y-full">4–6 hrs</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 1000-1100 Pages -->
+            <div class="flex flex-col">
+                <div class="font-mono text-sm font-bold mb-2 text-white">1000–1100 PAGES</div>
+                <div class="h-48 relative flex items-end border-b pb-2" style="border-color:var(--outline-color);">
+                    <div class="w-full relative h-full flex justify-center">
+                        <!-- Expected (Linear) -->
+                        <div class="absolute bottom-0 w-4 border-t-2 border-dashed border-gray-500 h-[100%] opacity-50"></div>
+                        <!-- Actual Spread -->
+                        <div class="absolute bottom-[80%] w-8 rounded-sm opacity-90 h-[10%]" style="background:var(--accent-color);"></div>
+                        <div class="absolute bottom-0 text-[10px] font-mono text-center w-full mt-2 translate-y-full">~8 hrs</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center gap-4 mt-8 font-mono text-[10px] justify-center opacity-75">
+            <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-sm" style="background:var(--accent-color)"></div>Actual Spread</div>
+            <div class="flex items-center gap-2"><div class="w-4 border-t-2 border-dashed border-gray-500"></div>Linear Expectation</div>
+        </div>
+    </div>
+
+    <p>If preprocessing cost were what it should be — a fixed, independent cost per page, embarrassingly parallel by nature — this table looks roughly linear. Double the pages, double the time, give or take. It doesn't. 300 to 600 pages, double the work, cost up to 2.4x the time. 600 to ~1050 pages cost roughly double again, off an already-degraded base. And at every page count the spread across iterations was wide — hours wide at 600 and 1000+ pages, on the same code processing similar documents. A fixed bottleneck doesn't get worse the more you feed it. That's a feedback loop.</p>
+
+    <h2 class="flex items-end gap-4 md:gap-6">
+    <span class="text-5xl md:text-6xl font-black leading-none opacity-50" style="color:var(--accent-color)">03</span>
+    <span class="pb-2">Going Back to First Principles</span>
+</h2>
+    <p>Once I stopped patching symptoms, I had to get precise about a few things I thought I already had clean.</p>
+    <p><strong>Process vs. thread.</strong> A process has its own memory space — nothing in it touches another process without going through an explicit channel: a pipe, a socket, shared memory you set up deliberately. A thread shares its process's memory with every other thread in it. That sharing is cheap — no copying, no serialization, instant visibility — and it's also exactly why threads can step on each other, which is exactly why CPython needs a way to stop that at the bytecode level.</p>
+    <p><strong>The GIL.</strong> One lock, held by one thread at a time, gating execution of Python bytecode. It's a property of CPython, not of Python the language. This is the one I'd actually gotten wrong, quietly, without realizing it: I knew OpenCV's C++ calls release the GIL while they run, and I'd treated that fact as "threading this is fine." What I'd skipped over is that the GIL release only covers the C++ call itself — every bit of Python sitting around it (array slicing, dtype conversions, encode/decode, the orchestration loop) still needs the lock back the moment control returns to Python. On a small test file, that gap is invisible. At real volume, with enough threads doing enough of that glue work simultaneously, that gap is where all the contention actually lived.</p>
+    <p><strong>CPU-bound vs. I/O-bound.</strong> Not about which library you reach for. It's about where the bottleneck physically lives. If the CPU is maxed out doing real computation, waiting doesn't help, because nothing's waiting. If the bottleneck is a socket or a disk and the CPU is idle in the gap, that idle gap is exactly what async and threads can fill — which is why threading worked fine for OCR and not for this.</p>
+    <p><strong>The event loop.</strong> A single thread asking the OS, over and over, "which of the things I'm waiting on are ready?" — on Linux, backed by <code>epoll</code>. When something's ready, it resumes the coroutine waiting on it. The whole model depends on that thread never actually blocking for any real stretch of time. Block it, and the loop stops doing its one job: responding to things promptly.</p>
+    
+    <div class="my-10 flex justify-center">
+        <div class="mermaid">
+            flowchart LR
+                A((Poll OS<br/>epoll)) --> B(Resume<br/>Coroutine)
+                B --> C(Run to<br/>next await)
+                C --> A
+        </div>
+    </div>
+
+    <h2 class="flex items-end gap-4 md:gap-6">
+    <span class="text-5xl md:text-6xl font-black leading-none opacity-50" style="color:var(--accent-color)">04</span>
+    <span class="pb-2">What Was Actually Happening</span>
+</h2>
+    <p>GIL contention doesn't just slow down the threads fighting over it. It throttles the entire process's ability to make any Python-level progress — including code that has nothing to do with image preprocessing. The asyncio event loop lives on a thread in that same process. Running a callback, resolving a completed future, letting the workflow engine's SDK send an activity heartbeat — all of it needs the GIL too. My preprocessing threads were saturating GIL acquisition, and the event loop thread was standing in the exact same line, with no priority over it.</p>
+    <p>That's where it forks into two failure paths, both coming from the same root:</p>
+
+    <!-- The Cascade Flowchart -->
+    <div class="my-12 p-8 border overflow-x-auto bg-[#1a1a1a]" style="border-color:var(--outline-color); border-radius: 12px;">
+        <div class="mermaid">
+            flowchart TD
+                subgraph Contention
+                    Root["ThreadPoolExecutor Preprocessing<br/>(CPU-bound image work)"] --> Thrashing["Threads contend for the GIL<br/>CPU thrashing, not parallelism"]
+                    Thrashing --> Starve["GIL contention starves ALL Python-level<br/>execution in the process"]
+                end
+
+                Starve -->|Left Branch| EventLoop["Asyncio event loop thread<br/>can't get scheduled"]
+                Starve -->|Right Branch| Bursty["Irregular, bursty submission<br/>pacing downstream"]
+
+                subgraph "The Retry Storm (Left)"
+                    EventLoop --> Missed["Workflow heartbeat coroutine<br/>misses its window"]
+                    Missed --> Timeout["Workflow engine marks activity as stalled<br/>Triggers a retry"]
+                    Timeout --> MoreLoad["Retry adds MORE preprocessing load<br/>to an already-saturated process"]
+                    MoreLoad -.-x|Loops back, compounding load| Thrashing
+                end
+
+                subgraph "The Backpressure (Right)"
+                    Bursty --> Uneven["Backpressure on OCR-serving pods<br/>(uneven load, not steady stream)"]
+                    Uneven --> Queue["Further timeouts and queueing<br/>on the OCR side"]
+                    Queue -.-x|Compounds with retry storm| Timeout
+                end
+                
+                style Root fill:#333,stroke:#666
+                style Thrashing fill:#400,stroke:#f00
+                style Starve fill:#400,stroke:#f00
+                style EventLoop fill:#222,stroke:#ff5c00
+                style Bursty fill:#1a2b3c,stroke:#3b82f6
+                style MoreLoad fill:#400,stroke:#f00,stroke-width:2px,stroke-dasharray: 5 5
+                style Queue fill:#1a2b3c,stroke:#3b82f6,stroke-width:2px,stroke-dasharray: 5 5
+        </div>
+    </div>
+
+    <p>The left path is the one that's intuitive once it's laid out: starved loop, missed heartbeat, false timeout, retry, more load, repeat. The right path is the one that actually fooled me at the time, because from the outside it just looked like the OCR service being flaky. But if preprocessing upstream is stalling and bursting instead of producing a steady stream, the OCR pods see uneven, clumpy load instead of smooth throughput — exactly the kind of pattern that produces queueing and timeouts on a service sized for steady-state traffic. Both paths trace back to the same root: CPU-bound work sitting somewhere it could starve the process's ability to do anything else, including the orchestration that was supposed to keep things moving.</p>
+    <p>This is the point in digging through it where my second wrong move stopped looking like a reasonable judgment call and started looking like the thing that had been making everything worse the whole time. Adding retries to the activity wasn't a neutral attempt to ride out flakiness — it was directly feeding the left branch of this exact diagram, before I had any idea the diagram existed. The 8-hour number for an 1,100-page document was never 8 hours of real preprocessing work; preprocessing a page is cheap. It was a comparatively small amount of real work plus a doom loop's worth of retries and stalls, and that overhead doesn't scale linearly with page count — it scales with how many chances the system gets to trip into the cascade, which scales with the number of batches, which scales with the number of pages. More pages didn't just mean more work. It meant more chances for the loop to compound.</p>
+
+    <h2 class="flex items-end gap-4 md:gap-6">
+    <span class="text-5xl md:text-6xl font-black leading-none opacity-50" style="color:var(--accent-color)">05</span>
+    <span class="pb-2">The Actual Fix</span>
+</h2>
+    <h3>Bypassing the GIL, correctly</h3>
+    <p>The direct swap is <code>ProcessPoolExecutor</code> instead of threads:</p>
+
+    <pre><code>import os
+from concurrent.futures import ProcessPoolExecutor
+import multiprocessing as mp
+
+def get_cpu_quota() -> int:
+    try:
+        with open("/sys/fs/cgroup/cpu.max") as f:
+            quota, period = f.read().split()
+            if quota != "max":
+                return max(1, int(quota) // int(period))
+    except FileNotFoundError:
+        pass
+    return len(os.sched_getaffinity(0))
+
+K8S_CPU_LIMIT = int(os.getenv("K8S_CPU_LIMIT", get_cpu_quota()))
+
+ctx = mp.get_context("spawn")
+global_process_pool = ProcessPoolExecutor(
+    max_workers=K8S_CPU_LIMIT,
+    mp_context=ctx,
+    max_tasks_per_child=200,
+)
+
+def preprocess_page(page_image) -> str:
+    import cv2
+    cv2.setNumThreads(0)
+    # ... existing OpenCV/NumPy logic ...
+    return processed_page</code></pre>
+
+    <p>This is also what let preprocessing go back on. Disabling it had bought breathing room, not a solution, and turning it back on with the old <code>ThreadPoolExecutor</code> still sitting there would have just restarted the same nightmare on a delay. This is the version that actually stayed on.</p>
+    <p>A <code>ProcessPoolExecutor</code> gives each worker its own interpreter and memory space — its own GIL, completely separate from the parent's. Preprocessing one page has no dependency on any other page, so this is embarrassingly parallel work, and separate processes let it actually run in parallel across physical cores instead of taking turns on one.</p>
+    <p>Two details here mattered more than the headline swap, and both are the kind of thing that doesn't show up until you're running in a cluster, not on a laptop.</p>
+    <p>First: how the pool gets sized. The naive version sizes off <code>os.cpu_count()</code> — which returns the host machine's core count, not the Kubernetes pod's CPU quota. A pod limited to 4 CPUs on a 64-core node reports 64 from that call. Size the pool off it and you've quietly rebuilt the exact problem you just fixed, one layer down — 64 processes contending for 4 CPU-shares instead of threads contending for the GIL, with full process-fork-and-interpreter-init cost per worker stacked on top. It passes every local test, because a laptop's <code>os.cpu_count()</code> usually does match reality, and it only breaks in the cluster, which is the worst possible place to find out. Reading the cgroup quota directly, falling back to <code>os.sched_getaffinity(0)</code>, reflects the CPU set the process is actually scheduled on.</p>
+    <p>Second: <code>cv2.setNumThreads(0)</code>, inside each worker. Without it, OpenCV spins up its own internal thread pool inside every process, fanning out across all visible CPUs again — the same oversubscription bug one layer down, at the native-library level instead of the Python-process level. Same mistake, different floor of the building.</p>
+
+    <!-- Before/After Architecture -->
+    <div class="my-12 p-8 border bg-[#1a1a1a]" style="border-color:var(--outline-color); border-radius: 12px;">
+        <div class="font-mono text-[10px] tracking-widest uppercase font-bold mb-4 opacity-50">Architecture: Before vs After</div>
+        <div class="mermaid">
+            flowchart LR
+                subgraph BEFORE ["BEFORE: ThreadPoolExecutor"]
+                    direction TB
+                    Proc1["Main Process"]
+                    subgraph SharedMemory ["Shared Memory Space"]
+                        direction LR
+                        EL1(("Event Loop"))
+                        T1(("T1"))
+                        T2(("T2"))
+                        T3(("T3"))
+                        T4(("T4"))
+                        EL1 <.-> |GIL Contention| T1
+                        T1 <.-> |GIL Contention| T2
+                        T2 <.-> |GIL Contention| T3
+                        T3 <.-> |GIL Contention| T4
+                    end
+                end
+
+                subgraph AFTER ["AFTER: ProcessPoolExecutor"]
+                    direction TB
+                    Proc2["Main Process"]
+                    EL2(("Event Loop"))
+                    Proc2 --- EL2
+                    EL2 == "IPC Pipe" ==> W1["Worker Process 1<br/>(Isolated GIL)"]
+                    EL2 == "IPC Pipe" ==> W2["Worker Process 2<br/>(Isolated GIL)"]
+                    EL2 == "IPC Pipe" ==> W3["Worker Process 3<br/>(Isolated GIL)"]
+                end
+                
+                style SharedMemory fill:#300,stroke:#f00,stroke-dasharray: 5 5
+                style EL1 fill:#ff5c00,stroke:#333
+                style EL2 fill:#ff5c00,stroke:#333
+                style T1 fill:#444,stroke:#333
+                style T2 fill:#444,stroke:#333
+                style T3 fill:#444,stroke:#333
+                style T4 fill:#444,stroke:#333
+                style W1 fill:#1a2b3c,stroke:#3b82f6
+                style W2 fill:#1a2b3c,stroke:#3b82f6
+                style W3 fill:#1a2b3c,stroke:#3b82f6
+        </div>
+    </div>
+
+    <p>One more thing worth getting right: the pool uses <code>spawn</code> explicitly instead of the platform default. On Linux, <code>ProcessPoolExecutor</code> defaults to <code>fork</code>, which copies the parent's memory at the moment of forking — including lock state held by threads that don't get copied along with it. Forking a long-lived worker that already has an active event loop and SDK threads running is a real way to copy a half-held lock into a child with no thread that can ever release it, which deadlocks on first use. <code>spawn</code> costs more at startup — a fresh interpreter per worker — but the pool is a singleton paying that cost once, not per task, so it's worth it. I set this deliberately rather than learning it the hard way; it's a documented enough hazard in the <code>multiprocessing</code> docs that it wasn't worth finding out about in production.</p>
+    <p>With the CPU work isolated in child processes, the parent process — where the workflow worker and event loop live — does almost no CPU work of its own. It submits a task and waits on an IPC pipe, which costs it almost nothing. Heartbeats fire on schedule. And because preprocessing throughput is steady instead of bursty, the OCR pods stop seeing the uneven load that was triggering backpressure on their end too. Both branches of the cascade close, not just the one I noticed first.</p>
+
+    <h3>What <code>run_in_executor</code> is actually doing</h3>
+    <p>This fix only makes sense if you're precise about what <code>loop.run_in_executor()</code> does, because it's doing more than "run this function elsewhere."</p>
+    <p>It takes a synchronous, blocking callable and a <code>concurrent.futures</code> executor, submits the callable to that executor, and wraps the resulting <code>Future</code> in an <code>asyncio.Future</code> the event loop knows how to await. That's the entire bridge. The loop doesn't run your preprocessing function itself and doesn't need to know OpenCV exists — it just needs to poll a future for completion, the same way it polls a socket for readiness. "Wait for this OS event" and "wait for this executor task" look almost identical from where the loop sits.</p>
+    <p>The detail that mattered for this specific fix: calling <code>loop.run_in_executor(None, fn, *args)</code> tells asyncio to use its default executor — a <code>ThreadPoolExecutor</code> the loop owns internally. That's exactly why my original instinct felt so natural; it's the path of least resistance asyncio hands you by default. But you're not stuck with the default. Passing an explicit executor — <code>loop.run_in_executor(global_process_pool, fn, *args)</code> — tells the loop to submit there instead. That one argument is the whole mechanism behind this fix: the loop's offloading machinery doesn't care if the executor is threads or processes, because either way it's just awaiting a future. It's not a different API. It's the same bridge, pointed somewhere else.</p>
+
+    <!-- Sequence Diagram -->
+    <div class="my-12 p-8 border bg-[#1a1a1a]" style="border-color:var(--outline-color); border-radius: 12px;">
+        <div class="mermaid">
+            sequenceDiagram
+                participant E as Event Loop
+                participant X as Executor
+                participant W as Worker (Process)
+                
+                Note over E: Running coroutine A
+                E->>X: run_in_executor(executor, fn)
+                X->>W: Submit task via IPC
+                Note over E: await suspends coroutine A
+                Note over E: E services coroutine B & C (not blocked)
+                Note over W: CPU-bound work (Isolated)
+                W-->>X: Task Complete
+                X-->>E: Future resolves (readiness event)
+                Note over E: Resumes coroutine A
+        </div>
+    </div>
+
+    <p>It's also the cleanest way to see why CPU-bound and I/O-bound work need genuinely different handling, not just different executor choices. The OCR call, by contrast, never needed an executor at all:</p>
+    <pre><code>async def run_ocr(page_image) -> str:
+    result = await client.chat.completions.create(...)
+    return result.choices[0].message.content</code></pre>
+    <p>The HTTP client here is natively async. <code>await</code> suspends the coroutine, the loop goes and services other work, the response arrives, the readiness event wakes the loop, the coroutine resumes. No thread, no process, no bridge needed. Executors exist for the case where the work isn't natively async — a blocking call with no async version, or CPU-bound work with nothing to yield during at all. <code>run_in_executor</code> is the adapter for that case specifically. It's not a free upgrade; it only does its job when the executor behind it actually matches the kind of work you hand it. That mismatch is the whole reason this post exists.</p>
+
+    <h2 class="flex items-end gap-4 md:gap-6">
+    <span class="text-5xl md:text-6xl font-black leading-none opacity-50" style="color:var(--accent-color)">06</span>
+    <span class="pb-2">The Trade-off I Accepted</span>
+</h2>
+    <p>This fix isn't free, and it doesn't fail the way the old code failed. A per-call <code>ThreadPoolExecutor</code> just gets torn down and rebuilt the next time the activity runs if something inside it dies — self-contained, self-healing. A singleton <code>ProcessPoolExecutor</code> doesn't have that property. If one worker process crashes — a segfault inside OpenCV's C++ extensions on a malformed image is a real way for that to happen, not a hypothetical — every subsequent submission to that pool raises <code>BrokenProcessPool</code> until the whole worker process restarts. One bad image can take down preprocessing for every activity scheduled on that worker, not just the one that hit it.</p>
+    <p><code>max_tasks_per_child=200</code> in the code above is the mitigation — it cycles workers periodically and bounds how much damage a slow leak or a crash can do before a fresh worker takes over. I added this going in, not after getting burned by it; I'd rather take the small, known cost of periodic worker restarts than find out the hard way what a long-lived worker accumulating memory or state does after a few thousand pages. Whether that caution was strictly necessary, I can't say for certain — I hadn't run it long enough at the time to know if it would have crashed without the cap. I'd rather be honest about that than claim a war story I don't actually have. What I can say is this trades a slower, more resilient failure mode for a faster, more fragile one, and it only pays off because it's mitigated, not because the risk disappeared.</p>
+
+    <h2 class="flex items-end gap-4 md:gap-6">
+    <span class="text-5xl md:text-6xl font-black leading-none opacity-50" style="color:var(--accent-color)">07</span>
+    <span class="pb-2">The Numbers</span>
+</h2>
+    <p>Two separate measurements, kept apart on purpose, because they answer different questions.</p>
+    <p>The first is the full-pipeline numbers from the benchmark runs — what it actually cost end to end, retries and stalls included: 300 pages at 2.5–3 hrs, 600 pages at 4–6 hrs, 1000–1100 pages at roughly 8 hrs, across iterations. These numbers include the doom loop. They're a measurement of the failure as much as the workload.</p>
+    <p>The second is the preprocessing stage in isolation, after the fix: a 10–20 page batch went from roughly 1.5–2 minutes to under 15–20 seconds. Call it a 6x improvement, at the chunk level, specifically for preprocessing.</p>
+
+    <!-- Before/After Bar Chart -->
+    <div class="my-12 p-8 border" style="background:var(--input-bg); border-color:var(--outline-color); border-radius: 12px;">
+        <div class="font-mono text-[10px] tracking-widest uppercase font-bold mb-8 opacity-50">Preprocessing Bottleneck (10-20 Page Batch)</div>
+        <div class="flex flex-col gap-6">
+            <div>
+                <div class="flex justify-between font-mono text-xs mb-2">
+                    <span class="text-white">Before (ThreadPoolExecutor)</span>
+                    <span class="opacity-75">~120 seconds</span>
+                </div>
+                <div class="w-full bg-[#111] h-6 rounded-sm overflow-hidden">
+                    <div class="bg-red-900 h-full w-full"></div>
+                </div>
+            </div>
+            <div>
+                <div class="flex justify-between font-mono text-xs mb-2">
+                    <span class="text-white">After (ProcessPoolExecutor)</span>
+                    <span class="opacity-75" style="color:var(--accent-color)">~20 seconds</span>
+                </div>
+                <div class="w-full bg-[#111] h-6 rounded-sm overflow-hidden">
+                    <div class="h-full w-[16%]" style="background:var(--accent-color)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p>The connection between the two is the actual story. A 6x speedup at the preprocessing stage doesn't on its own explain an 8-hour pipeline collapsing into something dramatically shorter — preprocessing was never the majority of those 8 hours. What the fix really did was remove the trigger for the cascade. Once preprocessing stopped starving the event loop, heartbeats stopped getting missed, retries stopped getting triggered, and the doom loop that was responsible for most of the original 8 hours just stopped happening. The 8-hour number was mostly retry-storm overhead sitting on top of a small amount of real work. Fixing the per-batch bottleneck didn't just make the real work faster — it deleted almost all the work that wasn't real to begin with.</p>
+
+    <h2 class="flex items-end gap-4 md:gap-6">
+    <span class="text-5xl md:text-6xl font-black leading-none opacity-50" style="color:var(--accent-color)">08</span>
+    <span class="pb-2">Scaling It Up</span>
+</h2>
+    <p>The fix above operates on a single batch of pages. The system needed to handle documents with 10,000+ pages, which meant composing this with a second layer of concurrency, not replacing it.</p>
+    <p>A separate batching layer chunks large documents into smaller payloads — say, 20 pages each — and uses <code>asyncio.gather</code> to run workflow executions for each chunk concurrently. It's the same offloading mechanism from the section above, one level up: instead of the loop awaiting a process-pool future for one image, it's awaiting workflow-execution futures for entire chunks, each of which does its own process-pool preprocessing and asyncio OCR calls underneath. Processes crunch pixels at the bottom layer; asyncio orchestrates everything above it — workflow dispatch, OCR calls, the chunk fan-out itself. Neither layer does the other's job, which is why they compose instead of fighting each other for the same resource.</p>
+
+    <!-- Layered Architecture -->
+    <div class="my-12 p-8 border bg-[#1a1a1a]" style="border-color:var(--outline-color); border-radius: 12px;">
+        <div class="mermaid">
+            graph TD
+                Doc[/"10,000+ Page Document"/] --> Chunk["Chunker (20-page payloads)"]
+                Chunk --> Gather{"asyncio.gather()"}
+                
+                Gather --> WF1["Workflow Exec 1"]
+                Gather --> WF2["Workflow Exec 2"]
+                Gather --> WF3["Workflow Exec N"]
+                
+                subgraph "Workflow Details"
+                    WF1 -.-> PP1["ProcessPool<br/>(CPU)"]
+                    WF1 -.-> AIO1["AsyncIO HTTP<br/>(I/O)"]
+                end
+                
+                style Doc fill:#111,stroke:#333
+                style Chunk fill:#222,stroke:#444
+                style Gather fill:#ff5c00,stroke:#222
+                style WF1 fill:#1a2b3c,stroke:#3b82f6
+                style WF2 fill:#1a2b3c,stroke:#3b82f6
+                style WF3 fill:#1a2b3c,stroke:#3b82f6
+        </div>
+    </div>
+
+    <h2 class="flex items-end gap-4 md:gap-6">
+    <span class="text-5xl md:text-6xl font-black leading-none opacity-50" style="color:var(--accent-color)">09</span>
+    <span class="pb-2">The General Pattern, Stripped of This Specific Pipeline</span>
+</h2>
+    <p>None of this is really about OCR pipelines. It's about a question every concurrent system eventually forces you to answer: <em>where does this specific piece of work actually spend its time, and does the tool I'm reaching for address that, or just rearrange it?</em></p>
+    <p>That question has a fairly small, reusable answer.</p>
+    <ul>
+        <li><strong>If the bottleneck is the CPU itself</strong> — numerical code, image transforms, parsing, anything where the processor is genuinely busy computing — threads in CPython don't help. They can't, structurally: the GIL means only one thread executes Python bytecode at a time, so threads on CPU-bound work buy you concurrency in name only, plus the real cost of context-switching between threads that are all waiting on the same lock. The fix here is multiprocessing — separate interpreters, separate GILs, separate memory — and it's worth that cost specifically because there's no other way to get true parallel execution out of CPython for this category of work.</li>
+        <li><strong>If the bottleneck is I/O</strong> — a network call, a disk read, anything where the CPU is sitting idle waiting for bytes — both threads and <code>asyncio</code> work, because the GIL gets released the moment a thread blocks on a syscall, and a coroutine yields control the moment it hits an <code>await</code>. Either way, the CPU is free during the wait, and that's the resource being reclaimed. <code>asyncio</code> tends to win at higher concurrency because a coroutine is far cheaper than an OS thread, but the underlying reason either approach works at all is the same: there was idle time to fill, and you filled it.</li>
+        <li><strong>The event loop's role in all of this is easy to undersell.</strong> It's a single thread, and it only does its job — accepting new work, dispatching callbacks, sending out heartbeats, whatever else it's responsible for — if it's never blocked for any meaningful stretch. That's a fragile property by design. Anything sharing that process that starves Python-level execution, even something that looks completely unrelated to the event loop's own work, degrades it. This is the part that's genuinely easy to miss: the damage isn't contained to whatever's causing the contention. It's contained to the process, and the event loop lives in that process too.</li>
+        <li><strong>And the constraints you're running inside of are not always the constraints you think you have.</strong> <code>os.cpu_count()</code> answers "how many cores does this machine have," not "how many cores am I actually allowed to use" — and in any containerized environment, those are frequently different numbers. Code that's correct on a laptop and wrong in a cluster is one of the most common ways a concurrency fix looks finished before it actually is.</li>
+    </ul>
+    
+    <p>Put together, that's most of what there is to get right: diagnose where the time is actually going before picking a tool, understand that the GIL's effects aren't contained to the threads causing them, and check what you're actually allowed to use before deciding how much of it to use. The rest — <code>ProcessPoolExecutor</code>, <code>run_in_executor</code>, cgroup quotas — is just the specific vocabulary CPython gives you to act on those three things correctly.</p>
+    
+    <div class="my-16 border-t pt-8" style="border-color:var(--outline-color);">
+        <p class="font-mono text-[10px] opacity-35 uppercase tracking-widest leading-loose text-center">Pipeline details (file names, function names, exact document type) have been simplified and genericized from the original system for clarity — the mechanics, the sequence of mistakes, and the benchmark numbers are real.</p>
+    </div>
+</main>
+
+<script src="../js/main.js" defer></script>
+<script>
+    // Theme toggle specific to blog page (overrides main.js if needed to keep dark mode baseline)
+    document.addEventListener('DOMContentLoaded', () => {
+        // Force dark mode to look sleek for blog posts unless specifically toggled
+        if (!localStorage.getItem('theme')) {
+            document.documentElement.classList.add('dark');
+        }
+    });
+</script>
+</body>
+</html>

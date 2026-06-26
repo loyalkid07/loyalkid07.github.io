@@ -33,82 +33,49 @@ function toggleTheme() {
 
 // ── Content data ──────────────────────────────────────────────────
 const content = {
-    'pulse': {
+    'diff-whisperer': {
         type: 'project', meta: 'MANIFEST_FILE.001',
-        cat: 'Portfolio // BIOMETRICS · REAL-TIME AGENTS', title: 'Pulse',
+        cat: 'Portfolio // SYSTEMS ENGINEERING · MCP', title: 'Diff-Whisperer',
         s1Label: '01 / THE_ARCHITECTURE',
-        s1Body: 'Google Health API webhooks push biometric events into Redis Streams using XADD — the consumer group pattern prevents duplicate processing even under webhook retries. A dedicated async consumer loop reads entries via XREAD, invokes Claude Haiku with a structured biometric analysis prompt (returning a typed JSON response), then fans out in parallel to Twilio WhatsApp delivery and Wear OS haptic feedback. Each stage has a latency budget; the full path from event ingestion to WhatsApp delivery needs to feel real-time to be useful.',
-        code: `# Redis Streams → Claude Haiku → parallel delivery fanout
-async def consume_events(consumer: Redis) -> None:
-    while True:
-        entries = await consumer.xread(
-            {"biometrics:stream": "$"}, block=1000
-        )
-        for _, events in entries:
-            for _, data in events:
-                await process_event(data)
-
-async def process_event(data: dict) -> None:
-    prompt = build_biometric_prompt(data)
-    analysis: BiometricAnalysis = await claude.invoke(
-        prompt, response_format=BiometricAnalysis
-    )
-    # Fan out — both run concurrently
-    await asyncio.gather(
-        twilio.send_whatsapp(format_summary(analysis)),
-        wearos.trigger_haptic(analysis.alert_level)
-    )`,
-        s2Label: '02 / THE_HARD_PARTS',
-        s2Body: 'Three non-obvious constraints shaped the design. First: Redis Streams consumer group semantics at single-consumer scale — the group is correct for future horizontal scaling but needed explicit XACK handling to avoid reprocessing after crashes. Second: Wear OS haptic tiles have a minimum OS-enforced refresh interval (~15min for tile data), so urgent alerts route through notification channels rather than tile updates. Third: the near-zero infra budget is a forcing function. When you can\'t throw compute at a problem, you get precise about where intelligence actually needs to live vs. where a threshold check is sufficient.',
-        s3Label: null, s3Body: null,
-        tags: ['Claude Haiku', 'Redis Streams', 'Twilio', 'Wear OS', 'AsyncIO', 'Google Health API'],
-        year: '2025', extra: 'STATUS: LIVE'
-    },
-    'gateway': {
-        type: 'project', meta: 'MANIFEST_FILE.002',
-        cat: 'Portfolio // LLM INFRASTRUCTURE · INFERENCE OPTIMIZATION', title: 'LLM Gateway',
-        s1Label: '01 / THE_THESIS',
-        s1Body: 'LLM gateways fail at the routing layer: they treat every request identically and let the large model handle decisions it shouldn\'t need to make. The thesis here is different — a fine-tuned encoder classifies intent and selects retrieval strategy before any expensive compute runs. Three pipeline modes: FULL (~116ms preflight) for complex requests requiring memory and context, LEAN (~40ms) for targeted retrieval, and PASSTHROUGH (~12ms) for low-value requests that don\'t justify preflight overhead. Callers always get a response. Context quality varies and is observable via response headers.',
-        code: `# Parallel preflight — all three stages run concurrently
-async def run_preflight(request: LLMRequest) -> PreflightContext:
-    intent = await classifier.classify(request.query)
-    memory, vectors, budget = await asyncio.gather(
-        memory_store.fetch(request.session_id, deadline_ms=40),
-        vector_store.search(intent.query_vec, deadline_ms=50),
-        budget_estimator.predict(request.query)  # ONNX model
-    )
-    candidates = reranker.rank(memory.hits + vectors.hits)
-    context = assembler.pack(candidates, budget=budget.token_limit)
-    # Atomic Redis gate reserves quota before large model call
-    await token_gate.reserve(request.user_id, budget.token_limit)
-    return context`,
+        s1Body: 'Diff-Whisperer reads logs from Docker, Kubernetes, and local files (Layers 1-3), normalizes and compacts them into event signatures (synthesizer), and diffs two log windows against each other to surface new failure modes and frequency regressions (Layer 4) — the piece no existing log-reading MCP server does.',
+        code: `# Core normalization patterns
+_NORM_PATTERNS = [
+    (re.compile(r'\\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\b'), '<UUID>'),
+    (re.compile(r'\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b'), '<IP>'),
+    (re.compile(r'\\b\\d{4}-\\d{2}-\\d{2}[T ]\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})?\\b'), '<TS>'),
+    (re.compile(r'0x[0-9a-fA-F]+'), '<HEX>'),
+    (re.compile(r'(["\\'])(?:(?=(\\\\?))\\2.)*?\\1'), '<STR>'),
+    (re.compile(r'/[\\w\\-./]*\\b(req|session|job)[-_][\\w]+\\b'), '<PATH_ID>'),
+    (re.compile(r'\\b\\d+\\b'), '<N>'),  # must run last
+]`,
         s2Label: '02 / THE_DESIGN_DECISIONS',
-        s2Body: 'Four decisions worth explaining. Deadline propagation: every stage has a ceiling, and if it misses, it returns partial results rather than failing the request. The atomic Redis token gate uses SETNX + EXPIRE to reserve quota before the large model is invoked — the hard stop that prevents budget overruns under concurrent load. The provider router tracks health via a sliding window of response codes and latencies, failing over proactively. The cross-encoder reranker runs after the parallel preflight — it\'s the only single-threaded step, and it\'s small enough that its latency is acceptable at this placement.',
+        s2Body: 'Three non-negotiable design rules: No mutating tools ever (only GET-equivalent operations). Every blocking syscall goes through run_in_executor. Every subprocess call uses create_subprocess_exec to neutralize shell injection. The diff engine rate-normalizes events to prevent window duration mismatches from biasing ratio results, using a heuristic 3.0x shift threshold to flag regressions.',
         s3Label: null, s3Body: null,
-        tags: ['ONNX', 'Redis', 'FastAPI', 'Cross-Encoder', 'AsyncIO'],
-        year: '2025–2026', extra: 'STATUS: IN PROGRESS'
+        tags: ['MCP', 'Docker', 'Kubernetes', 'AsyncIO', 'Python'],
+        year: '2026', extra: 'STATUS: ACTIVE'
     },
-    'serving': {
-        type: 'project', meta: 'MANIFEST_FILE.003',
-        cat: 'Portfolio // INFERENCE · SYSTEMS ENGINEERING', title: 'Custom LLM Serving Engine',
-        s1Label: '01 / THE_GAP',
-        s1Body: 'vLLM gets continuous batching and PagedAttention right, but the scheduling policy is baked in. SGLang adds radix attention cache sharing and better structured generation, but kernel-level customization is limited. llama.cpp achieves extreme portability and quantization breadth, but it\'s single-user: the execution model isn\'t built for concurrent session scheduling. None of them let you compose these properties cleanly. This project addresses that gap by building the scheduler, memory manager, and batching engine as composable, independently replaceable components.',
-        code: `# Composable scheduler — preemption policy is pluggable
-class Scheduler:
-    def __init__(self, policy: PreemptionPolicy):
-        # Policy is injected — FCFS, priority, deadline-aware
-        # are all valid without touching core scheduling logic
-        self.policy = policy
-        self.kv_pool = PagedKVPool(config.kv_block_size)
+    'agentvault': {
+        type: 'project', meta: 'MANIFEST_FILE.002',
+        cat: 'Portfolio // AI ENGINEERING · MULTI-AGENT', title: 'AgentVault',
+        s1Label: '01 / THE_ARCHITECTURE',
+        s1Body: 'A lightweight, stateless-by-design Python library for creating LLM-powered agents. Session state is externalized to a pluggable StateStore (like Redis), eliminating shared-actor race conditions. Built to orchestrate multi-agent setups with concurrent tool execution, structural output guarantees, and strict verification loops.',
+        code: `# Stateless agent with pluggable backends
+agent = Agent(
+    name="analyst",
+    model="gpt-4o",
+    system_prompt="You are a data analyst.",
+    tools=[query_db],
+    state_store=RedisStore(url="redis://localhost:6379", ttl=3600),
+    executor=RayExecutor(num_replicas=4),
+    verifier=no_pii
+)
 
-    async def step(self, queue: RequestQueue) -> Batch:
-        runnable = self.policy.select(queue.pending)
-        allocated = self.kv_pool.allocate(runnable)
-        return Batch(requests=allocated)`,
-        s2Label: '02 / THE_ARCHITECTURE',
-        s2Body: 'Three core components, each independently replaceable. The scheduler owns request selection and preemption — the policy is a pluggable interface. The KV cache manager handles block allocation and eviction, decoupled from scheduling so different memory topologies don\'t require scheduler changes. The batching engine assembles runs from scheduler output, handling mixed-length sequences and continuous batching without either component knowing the other\'s internals. Every decision in the system should be derivable from first principles and replaceable without cascading changes.',
+# Async execution fans out concurrent tool calls
+result = await agent.run("Analyze Q3 sales and fetch inventory")`,
+        s2Label: '02 / THE_DESIGN_DECISIONS',
+        s2Body: 'The core design philosophy is statelessness. By moving session history and context out of the agent actor and into Redis, agents can scale horizontally without sticky sessions. Tool calls naturally fan out concurrently via asyncio.gather unless sequential dependency is mandated by the LLM response grouping. Verification callbacks intercept responses before they reach the user, explicitly breaking the loop if PII or hallucinated data is detected.',
         s3Label: null, s3Body: null,
-        tags: ['CUDA', 'C++', 'Python', 'Inference', 'Serving'],
+        tags: ['Agents', 'Ray', 'Redis', 'Python', 'OpenTelemetry'],
         year: '2026', extra: 'STATUS: ACTIVE'
     },
     'mt': {
