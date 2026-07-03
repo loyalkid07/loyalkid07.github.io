@@ -99,7 +99,7 @@ def main():
                 print(f"Auto-copied {img_name} from Obsidian vault to assets directory.")
             except Exception as e:
                 print(f"Warning: Could not copy {img_name}: {e}")
-        return f'<img src="../assets/{img_name}" alt="{img_name}">'
+        return f'<img src="../../assets/{img_name}" alt="{img_name}">'
         
     md_body = re.sub(r'!\[\[(.*?)\]\]', repl_obsidian_img, md_body)
 
@@ -129,7 +129,7 @@ def main():
     # Handle Hero Section
     hero_img = fm.get('hero_image')
     if hero_img:
-        hero_section = f'<div class="w-full mb-16"><img src="{hero_img}" class="w-full h-auto rounded-xl border" style="border-color:var(--outline-color);" alt="Hero"></div>'
+        hero_section = f'<div class="w-full mb-16"><img src="../{hero_img}" class="w-full h-auto rounded-xl border" style="border-color:var(--outline-color);" alt="Hero"></div>'
     else:
         hero_text_big = fm.get('hero_text_big', 'BLOG')
         hero_text_small = fm.get('hero_text_small', 'READING')
@@ -148,7 +148,9 @@ def main():
     
     # Save the generated HTML
     basename = os.path.splitext(os.path.basename(md_file))[0]
-    out_file = os.path.join(script_dir, f"{basename}.html")
+    out_dir = os.path.join(script_dir, basename)
+    os.makedirs(out_dir, exist_ok=True)
+    out_file = os.path.join(out_dir, "index.html")
     
     with open(out_file, 'w', encoding='utf-8') as f:
         f.write(template)
@@ -163,15 +165,15 @@ def main():
     # We want to insert the new tile before the Ghost tile
     ghost_tile_marker = '<!-- Ghost tile -->'
     if ghost_tile_marker in index_content:
-        new_tile = create_blog_tile(fm, f"{basename}.html")
+        new_tile = create_blog_tile(fm, f"{basename}/")
         # Check if it already exists to avoid duplicates
-        if f'href="blogs/{basename}.html"' not in index_content:
+        if f'href="blogs/{basename}/"' not in index_content:
             index_content = index_content.replace(ghost_tile_marker, new_tile + '\n                ' + ghost_tile_marker)
             with open(index_path, 'w', encoding='utf-8') as f:
                 f.write(index_content)
-            print(f"Successfully injected {basename}.html into index.html")
+            print(f"Successfully injected {basename}/ into index.html")
         else:
-            print(f"{basename}.html is already in index.html. Skipping injection.")
+            print(f"{basename}/ is already in index.html. Skipping injection.")
     else:
         print("Warning: Could not find '<!-- Ghost tile -->' in index.html. Skipping homepage update.")
 
