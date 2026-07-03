@@ -102,6 +102,9 @@ def main():
         return f'<img src="../../assets/{img_name}" alt="{img_name}">'
         
     md_body = re.sub(r'!\[\[(.*?)\]\]', repl_obsidian_img, md_body)
+    
+    # Prepend ../ to standard markdown images pointing to local assets
+    md_body = re.sub(r'!\[(.*?)\]\(assets/(.*?)\)', r'![\1](../assets/\2)', md_body)
 
     # Convert to HTML
     html_content = markdown.markdown(md_body, extensions=['fenced_code', 'tables'])
